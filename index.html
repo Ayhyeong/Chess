@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <title>Solo Chess</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>혼자 두는 체스</title>
-  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/www/css/chessboard-1.0.0.min.css" />
+
+  <!-- Styles & Libraries -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      text-align: center;
       padding: 20px;
     }
     #board {
       width: 400px;
-      margin-bottom: 20px;
+      margin: 0 auto 20px;
     }
     #status {
       font-size: 18px;
@@ -27,34 +27,36 @@
       margin: 5px;
     }
     #moves {
-      max-height: 200px;
-      overflow-y: auto;
-      margin-top: 20px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 400px;
+      max-width: 420px;
+      margin: 20px auto;
+      text-align: left;
       font-size: 14px;
-      background-color: #f9f9f9;
+      background: #f8f8f8;
+      padding: 10px;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      max-height: 200px;
     }
     .move-entry {
-      cursor: pointer;
       display: inline-block;
-      margin-right: 8px;
+      margin-right: 10px;
+      cursor: pointer;
     }
   </style>
+
+  <!-- Dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
 </head>
 <body>
-  <h1>혼자 두는 체스</h1>
+  <h1>Chess</h1>
   <div id="board"></div>
   <div id="status"></div>
-  <div>
-    <button onclick="restartGame()">다시 시작</button>
-    <button onclick="undoMove()">되돌리기</button>
-  </div>
+  <button onclick="restartGame()">Restart</button>
+  <button onclick="undoMove()">Undo</button>
   <div id="moves"></div>
 
-  <script src="https://unpkg.com/chess.js@1.0.0/chess.min.js"></script>
-  <script src="https://unpkg.com/chessboardjs@1.0.0/www/js/chessboard-1.0.0.min.js"></script>
   <script>
     const game = new Chess();
     let board = null;
@@ -70,16 +72,16 @@
 
     function updateStatus() {
       let status = '';
-      const moveColor = game.turn() === 'w' ? '백' : '흑';
+      const moveColor = game.turn() === 'w' ? 'White' : 'Black';
 
       if (game.in_checkmate()) {
-        status = `게임 종료 - ${moveColor}이(가) 체크메이트되었습니다.`;
+        status = `Game over - ${moveColor} is in checkmate.`;
       } else if (game.in_draw()) {
-        status = '무승부입니다.';
+        status = 'Draw.';
       } else {
-        status = `${moveColor} 차례입니다.`;
+        status = `${moveColor} to move.`;
         if (game.in_check()) {
-          status += ' 체크 상태입니다!';
+          status += ' (Check)';
         }
       }
 
@@ -88,8 +90,8 @@
 
     function renderMoveHistory() {
       const history = game.history({ verbose: true });
-      const movesContainer = document.getElementById('moves');
-      movesContainer.innerHTML = '';
+      const container = document.getElementById('moves');
+      container.innerHTML = '';
       history.forEach((move, index) => {
         const span = document.createElement('span');
         span.className = 'move-entry';
@@ -97,7 +99,7 @@
         span.onclick = () => {
           const tempGame = new Chess();
           for (let i = 0; i <= index; i++) {
-            tempGame.move(game.history({ verbose: true })[i]);
+            tempGame.move(history[i]);
           }
           game.load(tempGame.fen());
           board.position(game.fen());
@@ -107,8 +109,9 @@
             game.history().slice(0, i + 1).forEach(m => tmp.move(m));
             return tmp.fen();
           });
+          renderMoveHistory();
         };
-        movesContainer.appendChild(span);
+        container.appendChild(span);
       });
     }
 
@@ -131,7 +134,8 @@
     board = Chessboard('board', {
       draggable: true,
       position: 'start',
-      onDrop: onDrop
+      onDrop: onDrop,
+      pieceTheme: 'https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/img/chesspieces/wikipedia/{piece}.png'
     });
 
     updateStatus();
