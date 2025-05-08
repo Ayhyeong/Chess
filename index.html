@@ -92,24 +92,6 @@
         currentOpening ? `Opening: ${currentOpening}` : status;
     }
 
-    function updateStatus() {
-      let status = '';
-      const moveColor = game.turn() === 'w' ? 'White' : 'Black';
-
-      if (game.in_checkmate()) {
-        status = `Game over - ${moveColor} is in checkmate.`;
-      } else if (game.in_draw()) {
-        status = 'Draw.';
-      } else {
-        status = `${moveColor} to move.`;
-        if (game.in_check()) {
-          status += ' (Check)';
-        }
-      }
-
-      document.getElementById('status').innerText = status;
-    }
-
     function renderMoveHistory() {
       const history = game.history({ verbose: true });
       const container = document.getElementById('moves');
