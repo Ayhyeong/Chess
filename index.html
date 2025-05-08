@@ -45,6 +45,7 @@
   </style>
 
   <!-- Dependencies -->
+  <script src="openings.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
@@ -53,6 +54,7 @@
   <h1>Chess</h1>
   <div id="board"></div>
   <div id="status"></div>
+  <div id="opening-name"></div>
   <button onclick="restartGame()">Restart</button>
   <button onclick="undoMove()">Undo</button>
   <div id="moves"></div>
@@ -68,6 +70,28 @@
       historyStates.push(game.fen());
       updateStatus();
       renderMoveHistory();
+    }
+
+    function updateStatus() {
+      let status = '';
+      const moveColor = game.turn() === 'w' ? 'White' : 'Black';
+      
+      if (game.in_checkmate()) {
+        status = `Game over - ${moveColor} is in checkmate.`;
+      } else if (game.in_draw()) {
+        status = 'Draw.';
+      } else {
+        status = `${moveColor} to move.`;
+        if (game.in_check()) {
+          status += ' (Check)';
+        }
+      }
+      
+      document.getElementById('status').innerText = status;
+      
+      // Opening detection
+      const currentOpening = detectOpening(game.history());
+      document.getElementById('opening-name').innerText = `Opening: ${currentOpening}`;
     }
 
     function updateStatus() {
