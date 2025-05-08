@@ -91,7 +91,8 @@
       
       // Opening detection
       const currentOpening = detectOpening(game.history());
-      document.getElementById('opening-name').innerText = `Opening: ${currentOpening}`;
+      document.getElementById('opening-name').innerText =
+        currentOpening ? `Opening: ${currentOpening}` : '';
     }
 
     function updateStatus() {
