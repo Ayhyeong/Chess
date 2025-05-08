@@ -80,19 +80,16 @@
         status = `Game over - ${moveColor} is in checkmate.`;
       } else if (game.in_draw()) {
         status = 'Draw.';
+      } else if (game.in_check()) {
+        status = `${moveColor} is in check.`;
       } else {
-        status = `${moveColor} to move.`;
-        if (game.in_check()) {
-          status += ' (Check)';
-        }
+        status = '';
       }
-      
-      document.getElementById('status').innerText = status;
-      
-      // Opening detection
+
+      // Opening Detected
       const currentOpening = detectOpening(game.history());
-      document.getElementById('opening-name').innerText =
-        currentOpening ? `Opening: ${currentOpening}` : '';
+      document.getElementById('status').innerText =
+        currentOpening ? `Opening: ${currentOpening}` : status;
     }
 
     function updateStatus() {
