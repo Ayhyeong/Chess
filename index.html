@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>혼자 두는 체스</title>
+  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/www/css/chessboard-1.0.0.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    #board {
+      width: 400px;
+      margin-bottom: 20px;
+    }
+    #status {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin: 5px;
+    }
+    #moves {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 400px;
+      font-size: 14px;
+      background-color: #f9f9f9;
+    }
+    .move-entry {
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>혼자 두는 체스</h1>
+  <div id="board"></div>
+  <div id="status"></div>
+  <div>
+    <button onclick="restartGame()">다시 시작</button>
+    <button onclick="undoMove()">되돌리기</button>
+  </div>
+  <div id="moves"></div>
+
+  <script src="https://unpkg.com/chess.js@1.0.0/chess.min.js"></script>
+  <script src="https://unpkg.com/chessboardjs@1.0.0/www/js/chessboard-1.0.0.min.js"></script>
+  <script>
+    const game = new Chess();
+    let board = null;
+    let historyStates = [];
+
+    function onDrop(source, target) {
+      const move = game.move({ from: source, to: target, promotion: 'q' });
+      if (move === null) return 'snapback';
+      historyStates.push(game.fen());
+      updateStatus();
+      renderMoveHistory();
+    }
+
+    function updateStatus() {
+      let status = '';
+      const moveColor = game.turn() === 'w' ? '백' : '흑';
+
+      if (game.in_checkmate()) {
+        status = `게임 종료 - ${moveColor}이(가) 체크메이트되었습니다.`;
+      } else if (game.in_draw()) {
+        status = '무승부입니다.';
+      } else {
+        status = `${moveColor} 차례입니다.`;
+        if (game.in_check()) {
+          status += ' 체크 상태입니다!';
+        }
+      }
+
+      document.getElementById('status').innerText = status;
+    }
+
+    function renderMoveHistory() {
+      const history = game.history({ verbose: true });
+      const movesContainer = document.getElementById('moves');
+      movesContainer.innerHTML = '';
+      history.forEach((move, index) => {
+        const span = document.createElement('span');
+        span.className = 'move-entry';
+        span.innerText = `${index + 1}. ${move.san}`;
+        span.onclick = () => {
+          const tempGame = new Chess();
+          for (let i = 0; i <= index; i++) {
+            tempGame.move(game.history({ verbose: true })[i]);
+          }
+          game.load(tempGame.fen());
+          board.position(game.fen());
+          updateStatus();
+          historyStates = game.history().map((_, i) => {
+            const tmp = new Chess();
+            game.history().slice(0, i + 1).forEach(m => tmp.move(m));
+            return tmp.fen();
+          });
+        };
+        movesContainer.appendChild(span);
+      });
+    }
+
+    function restartGame() {
+      game.reset();
+      board.start();
+      updateStatus();
+      document.getElementById('moves').innerHTML = '';
+      historyStates = [];
+    }
+
+    function undoMove() {
+      game.undo();
+      historyStates.pop();
+      board.position(game.fen());
+      updateStatus();
+      renderMoveHistory();
+    }
+
+    board = Chessboard('board', {
+      draggable: true,
+      position: 'start',
+      onDrop: onDrop
+    });
+
+    updateStatus();
+  </script>
+</body>
+</html>
