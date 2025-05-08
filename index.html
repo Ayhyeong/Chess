@@ -89,7 +89,7 @@
       // Opening Detected
       const currentOpening = detectOpening(game.history());
       document.getElementById('status').innerText =
-        currentOpening ? `Opening: ${currentOpening}` : status;
+        currentOpening ? `${currentOpening}` : status;
     }
 
     function renderMoveHistory() {
