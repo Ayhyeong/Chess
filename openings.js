@@ -26,10 +26,15 @@ const openings = [
 ];
 
 function detectOpening(history) {
+  let matched = '';
+  let maxLength = 0;
   for (const opening of openings) {
     if (history.length < opening.moves.length) continue;
     const match = opening.moves.every((move, i) => move === history[i]);
-    if (match) return opening.name;
+    if (match && opening.moves.length > maxLength) {
+      matched = opening.name;
+      maxLength = opening.moves.length;
+    }
   }
-  return '';
+  return matched;
 }
