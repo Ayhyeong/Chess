@@ -113,9 +113,11 @@
         const span = document.createElement('span');
         span.className = 'move-entry';
 
-        let text = `${moveNumber}. ${history[i].san}`;
+        if(i = history.length){
+          let text = `${moveNumber}. ${history[i].san}`;
+        }
         if (i + 1 < history.length) {
-          text = ` ${history[i + 1].san}`;
+          let text = ` ${history[i + 1].san}`;
         }
 
         span.innerText = text;
