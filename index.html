@@ -103,31 +103,44 @@
     }
 
     function renderMoveHistory() {
-      const history = game.history({ verbose: true });
-      const container = document.getElementById('moves');
-      container.innerHTML = '';
-      history.forEach((move, index) => {
-        const span = document.createElement('span');
-        span.className = 'move-entry';
-        span.innerText = `${index + 1}. ${move.san}`;
-        span.onclick = () => {
-          const tempGame = new Chess();
-          for (let i = 0; i <= index; i++) {
-            tempGame.move(history[i]);
-          }
-          game.load(tempGame.fen());
-          board.position(game.fen());
-          updateStatus();
-          historyStates = game.history().map((_, i) => {
-            const tmp = new Chess();
-            game.history().slice(0, i + 1).forEach(m => tmp.move(m));
-            return tmp.fen();
-          });
-          renderMoveHistory();
-        };
-        container.appendChild(span);
-      });
+  const history = game.history({ verbose: true });
+  const container = document.getElementById('moves');
+  container.innerHTML = '';
+
+  for (let i = 0; i < history.length; i += 2) {
+    const moveNumber = Math.floor(i / 2) + 1;
+
+    const span = document.createElement('span');
+    span.className = 'move-entry';
+
+    let text = `${moveNumber}. ${history[i].san}`;
+    if (i + 1 < history.length) {
+      text += ` ${history[i + 1].san}`;
     }
+
+    span.innerText = text;
+
+    // 클릭 이벤트 추가
+    span.onclick = () => {
+      const tempGame = new Chess();
+      for (let j = 0; j <= i + 1 && j < history.length; j++) {
+        tempGame.move(history[j]);
+      }
+      game.load(tempGame.fen());
+      board.position(game.fen());
+      updateStatus();
+      historyStates = game.history().map((_, k) => {
+        const tmp = new Chess();
+        game.history().slice(0, k + 1).forEach(m => tmp.move(m));
+        return tmp.fen();
+      });
+      renderMoveHistory();
+    };
+
+    container.appendChild(span);
+  }
+}
+
 
     function restartGame() {
       game.reset();
