@@ -9,7 +9,7 @@ const openings = [
   { moves: ['e4', 'e5', 'Nf3', 'f5', 'exf5'], name: 'Latvian Gambit Accepted' },
   { moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bb5'], name: 'Ruy Lopez Opening' },
   { moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bb5', 'Nf6'], name: 'Ruy Lopez Opening: Berlin Defence' },
-  { moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bb5', 'nf6', 'O-O', 'Nxe4'], name: 'Ruy Lopez Opening: Berlin, Rio Gambit Accepted' },
+  { moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bb5', 'Nf6', 'O-O', 'Nxe4'], name: 'Ruy Lopez Opening: Berlin, Rio Gambit Accepted' },
   { moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bc4'], name: 'Italian Game' },
   { moves: ['e4', 'e5', 'f4'], name: 'King\'s Gambit' },
   { moves: ['e4', 'e5', 'f4', 'exf4'], name: 'King\'s Gambit Accepted' },
