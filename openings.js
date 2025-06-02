@@ -1,9 +1,11 @@
 // openings.js
 const openings = [
   { moves: ['d4'], name: 'Queen\'s Pawn Opening' },
-  { moves: ['d4', 'c6', 'e4'], name: 'Caro-Kann Defence' },
+  { moves: ['d4', 'b6'], name: 'English Defence' },
+  { moves: ['d4', 'c6', 'e4', 'd5'], name: 'Caro-Kann Defence' },
   { moves: ['d4', 'd5'], name: 'Closed Game' },
   { moves: ['d4', 'e5'], name: 'Englund Gambit' },
+  { moves: ['d4', 'e6', 'c4', 'b6'], name: 'English Defence' },
   { moves: ['d4', 'd5', 'c4'], name: 'Queen\'s Gambit' },
   { moves: ['e4'], name: 'King\'s Pawn Opening' },
   { moves: ['e4', 'c5'], name: 'Sicilian Defence' },
