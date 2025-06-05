@@ -68,113 +68,157 @@
   <button onclick="undoMove()">Undo</button>
   <div id="moves"></div>
 
-  <script>
-    const game = new Chess();
-    let board = null;
-    let historyStates = [];
+<script>
+  const game = new Chess();
+  let board = null;
+  let historyStates = [];
 
-    function onDrop(source, target) {
-      const move = game.move({ from: source, to: target, promotion: 'q' });
-      if (move === null) return 'snapback';
-      historyStates.push(game.fen());
+  let selectedSquare = null;
+  let possibleMoves = [];
 
-      board.position(game.fen());
+  function onDrop(source, target, piece, newPos, oldPos, orientation) {
+    // Drag & Drop, animated
+    const move = game.move({ from: source, to: target, promotion: 'q' });
+    if (move === null) return 'snapback';
 
-      updateStatus();
-      renderMoveHistory();
-    }
-
-    function updateStatus() {
-      let status = '';
-      const moveColor = game.turn() === 'w' ? 'White' : 'Black';
-      
-      if (game.in_checkmate()) {
-        status = `Game over - ${moveColor} is in checkmate.`;
-      } else if (game.in_draw()) {
-        status = 'Draw.';
-      } else if (game.in_check()) {
-        status = `${moveColor} is in check.`;
-      } else {
-        status = '';
-      }
-
-      // Opening Detected
-      const currentOpening = detectOpening(game.history());
-      document.getElementById('status').innerText = status;
-      document.getElementById('opening-name').innerText =
-        currentOpening ? `${currentOpening}` : '';
-    }
-
-    function renderMoveHistory() {
-      const history = game.history({ verbose: true });
-      const container = document.getElementById('moves');
-      container.innerHTML = '';
-
-      for (let i = 0; i < history.length; i += 2) {
-        const moveNumber = Math.floor(i / 2) + 1;
-
-        const span = document.createElement('span');
-        span.className = 'move-entry';
-
-        let text = `${moveNumber}. ${history[i].san}`;
-        if (i + 1 < history.length) {
-          text += ` ${history[i + 1].san}`;
-        }
-
-        span.innerText = text;
-
-    // click event
-        span.onclick = () => {
-          const totalMoves = game.history().length;
-          const targetMoveIndex = i + 1 < totalMoves ? i + 1 : i;
-
-          while (game.history().length > targetMoveIndex + 1) {
-            game.undo();
-          }
-
-          board.position(game.fen());
-          updateStatus();
-
-        // update historyStates to current status
-          historyStates = game.history().map((_, k) => {
-            const tmp = new Chess();
-            game.history().slice(0, k + 1).forEach(m => tmp.move(m));
-            return tmp.fen();
-          });
-
-          renderMoveHistory();
-        };
-
-        container.appendChild(span);
-      }
-    }
-
-
-
-    function restartGame() {
-      game.reset();
-      board.start();
-      updateStatus();
-      document.getElementById('moves').innerHTML = '';
-      historyStates = [];
-    }
-
-    function undoMove() {
-      game.undo();
-      historyStates.pop();
-      board.position(game.fen());
-      updateStatus();
-      renderMoveHistory();
-    }
-
-    board = Chessboard('board', {
-      draggable: true,
-      position: 'start',
-      onDrop: onDrop,
-      pieceTheme: 'img/{piece}.svg'
-    });
-
+    historyStates.push(game.fen());
+    board.position(game.fen(), false); // animated
     updateStatus();
-  </script>
+    renderMoveHistory();
+  }
+
+  function updateStatus() {
+    let status = '';
+    const moveColor = game.turn() === 'w' ? 'White' : 'Black';
+
+    if (game.in_checkmate()) {
+      status = `Game over - ${moveColor} is in checkmate.`;
+    } else if (game.in_draw()) {
+      status = 'Draw.';
+    } else if (game.in_check()) {
+      status = `${moveColor} is in check.`;
+    } else {
+      status = '';
+    }
+
+    // Opening Detected
+    const currentOpening = detectOpening(game.history());
+    document.getElementById('status').innerText = status;
+    document.getElementById('opening-name').innerText =
+      currentOpening ? `${currentOpening}` : '';
+  }
+
+  function renderMoveHistory() {
+    const history = game.history({ verbose: true });
+    const container = document.getElementById('moves');
+    container.innerHTML = '';
+
+    for (let i = 0; i < history.length; i += 2) {
+      const moveNumber = Math.floor(i / 2) + 1;
+      const span = document.createElement('span');
+      span.className = 'move-entry';
+      let text = `${moveNumber}. ${history[i].san}`;
+      if (i + 1 < history.length) text += ` ${history[i + 1].san}`;
+      span.innerText = text;
+
+      // click event
+      span.onclick = () => {
+        const totalMoves = game.history().length;
+        const targetMoveIndex = i + 1 < totalMoves ? i + 1 : i;
+
+        while (game.history().length > targetMoveIndex + 1) game.undo();
+
+        board.position(game.fen(), false);
+        updateStatus();
+        historyStates = game.history().map((_, k) => {
+          const tmp = new Chess();
+          game.history().slice(0, k + 1).forEach(m => tmp.move(m));
+          return tmp.fen();
+        });
+        renderMoveHistory();
+      };
+
+      container.appendChild(span);
+    }
+  }
+
+  function restartGame() {
+    game.reset();
+    board.start();
+    updateStatus();
+    document.getElementById('moves').innerHTML = '';
+    historyStates = [];
+    selectedSquare = null;
+    possibleMoves = [];
+  }
+
+  function undoMove() {
+    game.undo();
+    historyStates.pop();
+    board.position(game.fen(), false);
+    updateStatus();
+    renderMoveHistory();
+  }
+
+  function onSquareClick(square) {
+    // reselect, cancel
+    if (selectedSquare === square) {
+      selectedSquare = null;
+      removeHighlights();
+      return;
+    }
+
+    // not selected
+    if (!selectedSquare) {
+      const moves = game.moves({ square, verbose: true });
+      if (moves.length === 0) return;
+
+      selectedSquare = square;
+      possibleMoves = moves.map(m => m.to);
+
+      highlightSquare(square);
+      highlightMoves(possibleMoves);
+      return;
+    }
+
+    const move = game.move({ from: selectedSquare, to: square, promotion: 'q' });
+    if (move) {
+      board.position(game.fen(), true); // animated
+      historyStates.push(game.fen());
+      updateStatus();
+      renderMoveHistory();
+    }
+
+    // reset state
+    selectedSquare = null;
+    possibleMoves = [];
+    removeHighlights();
+  }
+
+  function highlightSquare(square) {
+    $(`#board .square-${square}`).css('background', '#f6f669');
+  }
+
+  function highlightMoves(moves) {
+    moves.forEach(sq => {
+      $(`#board .square-${sq}`).css('background', '#a9a9a9');
+    });
+  }
+
+  function removeHighlights() {
+    $('#board .square-55d63').css('background', '');
+  }
+
+  board = Chessboard('board', {
+    draggable: true,
+    position: 'start',
+    onDrop: onDrop,
+    onSquareClick: onSquareClick
+    pieceTheme: 'img/{piece}.svg',
+  });
+
+  updateStatus();
+</script>
+
 </body>
 </html>
