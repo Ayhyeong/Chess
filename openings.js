@@ -40,6 +40,7 @@ const openings = [
   { moves: ['e4', 'e5', 'f4', 'exf4', 'Kf2'], name: 'KGA: Tumbleweed' },
   { moves: ['e4', 'e5', 'f4', 'exf4', 'Bc4'], name: 'KGA: Bishop\'s Gambit' },
   { moves: ['e4', 'e5', 'f4', 'exf4', 'Nf3'], name: 'KGA: King\'s Knight Gambit' },
+  { moves: ['e4', 'e5', 'f4', 'exf4', 'Nf3', 'd5'], name: 'KGA: Modern Defence' },
   { moves: ['e4', 'e5', 'f4', 'exf4', 'Nf3', 'g5', 'Bc4', 'g4', 'O-O'], name: 'KGA: Muzio Gambit' },
   { moves: ['e4', 'e5', 'f4', 'exf4', 'Nf3', 'g5', 'Bc4', 'g4', 'O-O', 'gxf3', 'Qxf3', 'Qe7'], name: 'KGA: Muzio Gambit, From\'s Defence' },
   { moves: ['e4', 'e5', 'f4', 'exf4', 'Nf3', 'g5', 'Bc4', 'g4', 'O-O', 'gxf3', 'Qxf3', 'Qf6'], name: 'KGA: Muzio Gambit, Sarratt Defence' },
