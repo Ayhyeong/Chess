@@ -54,7 +54,7 @@
   </style>
 
   <!-- Dependencies -->
-  <script src="openings.js"></script>
+  <script src="openings.json"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
@@ -73,6 +73,23 @@
   let board = null;
   let historyStates = [];
 
+  let selectedSquare = null;
+  let possibleMoves = [];
+
+  let openings = [];
+
+  fetch('openings.json')
+    .then(response => response.json())
+    .then(data => {
+      openings = data;
+    })
+    .catch(err => {
+      console.error('Failed to load openings.json', err);
+    });
+
+  const game = new Chess();
+  let board = null;
+  let historyStates = [];
   let selectedSquare = null;
   let possibleMoves = [];
 
