@@ -1,3 +1,4 @@
+[
   { "moves": ["d4"], "evaluation": 0, "name": "Queen's Pawn Opening" },
   { "moves": ["d4", "b6"], "evaluation": 0, "name": "English Defence" },
   { "moves": ["d4", "c6", "e4", "d5"], "evaluation": 0, "name": "Caro-Kann Defence" },
@@ -63,3 +64,4 @@
   { "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "Nf6"], "evaluation": 0, "name": "Ruy Lopez Opening: Berlin Defence" },
   { "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5", "Nf6", "O-O", "Nxe4"], "evaluation": 0, "name": "Ruy Lopez Opening: Berlin: Rio Gambit Accepted" },
   { "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4"], "evaluation": 0, "name": "Italian Game" }
+]
