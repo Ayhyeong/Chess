@@ -13,10 +13,64 @@
       text-align: center;
       padding: 20px;
     }
-    #board {
-      width: 400px;
+
+    .board-wrapper {
+      position: relative;
+      width: 400xp;
       margin: 0 auto 20px;
     }
+    #board {
+      width: 400px;
+    }
+
+    .setting-btn {
+      position: absolute;
+      top: 0;
+      right: -50px;
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 40 px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transiton: background 0.2s;
+    }
+    .setting-btn:hover {
+      background-color: #f0f0f0;
+    }
+    #settings-modal {
+      display: none;
+      position: fixed;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      z-index: 100;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      text-align: left;
+      min-width 250px;
+    }
+    #settings-modal h3 {
+      margin-top: 0;
+    }
+    .modal-backdrop {
+      display: none;
+      positon: fixed;
+      top: 0; left: 0; width: 100%; height: 100;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+    .setting-item {
+      margin: 10px 0;
+    }
+  
     #status {
       font-size: 18px;
       margin-bottom: 10px;
@@ -51,6 +105,19 @@
       height: 100%;
       aspect-ratio: 1 / 1;
     }
+    #arrow-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .check-danger {
+      background-color: ##ff4d4d !important;
+      box-shadow: inset 0 0 10px 5px rgba(0,0,0,0.5);
+    }
   </style>
 
   <!-- Dependencies -->
@@ -60,7 +127,10 @@
 </head>
 <body>
   <h1>Chess</h1>
-  <div id="board"></div>
+  <div class="board-wrapper">
+    <div id="board"></div>
+    <button class="settings-btn" onclick="openSettings()" title="Settings">⚙️</button>
+  </div>
   <div id="status"></div>
   <div id="opening-name"></div>
   <button onclick="restartGame()">Restart</button>
@@ -68,6 +138,7 @@
   <div id="moves"></div>
 
 <script>
+  
   const game = new Chess();
   let board = null;
   let historyStates = [];
@@ -75,15 +146,115 @@
   let possibleMoves = [];
 
   let openings = [];
+  
+  let isCheckAlarmEnabled = false;
+  function openSettings(){
+    $('#modal-backdrop').show();
+    $('#settings-modal').show();
+  }
+  function closeSettings() {
+    $('#modal-backdrop').hide();
+    $('#settings-modal').hide();
+  }
+  function toggleCheckAlarm() {
+    isCheckAlarmEnable = document.getElementById('check-alarm-toggle').checked;
+    updateStatus();
+  }
+  function clearVisuals() {
+    $('#board .square-55d63').removeClass('check-danger');
+    const overlay = document.getElementById('arrow-overlay');
+    const paths = overlay.querySelectorAll('path');
+    paths.forEach(p => p.remove());
+  }
+  function drawArrow(fromSquare, toSquare) {
+    const $board = $('#board');
+    const boardPos = $board.offset();
+    
+    // DOM 요소 위치를 기반으로 좌표 계산 (보드 뒤집힘 대응)
+    const $from = $(`#board .square-${fromSquare}`);
+    const $to = $(`#board .square-${toSquare}`);
+    
+    if ($from.length === 0 || $to.length === 0) return;
 
+    const fromPos = $from.offset();
+    const toPos = $to.offset();
+    const squareWidth = $from.width();
+    const squareHeight = $from.height();
+
+    // SVG 오버레이 기준 상대 좌표 (중심점)
+    const x1 = fromPos.left - boardPos.left + squareWidth / 2;
+    const y1 = fromPos.top - boardPos.top + squareHeight / 2;
+    const x2 = toPos.left - boardPos.left + squareWidth / 2;
+    const y2 = toPos.top - boardPos.top + squareHeight / 2;
+
+    // SVG Path 생성
+    const ns = "http://www.w3.org/2000/svg";
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', `M${x1},${y1} L${x2},${y2}`);
+    path.setAttribute('stroke', 'gold');
+    path.setAttribute('stroke-width', '8');
+    path.setAttribute('stroke-opacity', '0.8');
+    path.setAttribute('marker-end', 'url(#arrowhead)');
+    path.setAttribute('fill', 'none');
+
+    document.getElementById('arrow-overlay').appendChild(path);
+  }
+
+  function visualizeCheck() {
+    clearVisuals();
+    if (!game.in_check()) return;
+
+    const turn = game.turn(); // 'w' or 'b' (현재 턴인 사람이 체크 당함)
+    const boardState = game.board();
+    let kingSquare = null;
+
+    // 1. 킹의 위치 찾기
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = boardState[r][c];
+        if (piece && piece.type === 'k' && piece.color === turn) {
+          // 행/열 인덱스를 대수기호(e.g., e1)로 변환
+          const file = String.fromCharCode('a'.charCodeAt(0) + c);
+          const rank = 8 - r;
+          kingSquare = file + rank;
+          break;
+        }
+      }
+    }
+
+    if (!kingSquare) return;
+
+    // 2. 킹 타일 붉은색 강조
+    $(`#board .square-${kingSquare}`).addClass('check-danger');
+
+    // 3. 공격 기물 찾기 및 화살표 그리기
+    const opponentColor = turn === 'w' ? 'b' : 'w';
+    const squares = ['a','b','c','d','e','f','g','h'];
+    
+    // 보드 전체를 순회하며 적 기물이 킹을 공격할 수 있는지 확인
+    for (let r = 1; r <= 8; r++) {
+      for (let f of squares) {
+        const sq = f + r;
+        const piece = game.get(sq);
+        
+        if (piece && piece.color === opponentColor) {
+          // 해당 적 기물의 모든 합법적 이동 경로 확인
+          const moves = game.moves({ square: sq, verbose: true });
+          const attacksKing = moves.some(m => m.to === kingSquare);
+          
+          if (attacksKing) {
+            drawArrow(sq, kingSquare);
+          }
+        }
+      }
+    }
+  }
+
+  
   fetch('openings.json')
     .then(response => response.json())
-    .then(data => {
-      openings = data;
-    })
-    .catch(err => {
-      console.error('Failed to load openings.json', err);
-    });
+    .then(data => { openings = data; })
+    .catch(err => { console.error('Failed to load openings.json', err); });
 
   function onDrop(source, target, piece, newPos, oldPos, orientation) {
     // Drag & Drop, animated
@@ -129,6 +300,13 @@
     document.getElementById('status').innerText = status;
     document.getElementById('opening-name').innerText =
       currentOpening ? `${currentOpening}` : '';
+    
+    if (isCheckAlarmEnabled) {
+      visualizeCheck();
+    }
+    else {
+      clearVisuals();
+    }
   }
 
   function renderMoveHistory() {
