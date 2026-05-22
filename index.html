@@ -281,14 +281,16 @@
     .catch(err => { console.error('Failed to load openings.json', err); });
 
   function onDrop(source, target, piece, newPos, oldPos, orientation) {
-    // Drag & Drop, animated
     const move = game.move({ from: source, to: target, promotion: 'q' });
     if (move === null) return 'snapback';
 
     historyStates.push(game.fen());
-    board.position(game.fen(), false); // animated
     updateStatus();
     renderMoveHistory();
+  }
+  
+  function onSnapEnd() {
+    board.position(game.fen());
   }
 
   function updateStatus() {
@@ -438,7 +440,7 @@
     draggable: true,
     position: 'start',
     onDrop: onDrop,
-    onSquareClick: onSquareClick,
+    onSnapEnd: onSnapEnd,
     pieceTheme: 'img/{piece}.svg'
   });
 
