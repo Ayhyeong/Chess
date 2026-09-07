@@ -70,7 +70,47 @@
     .setting-item {
       margin: 10px 0;
     }
-  
+
+    #promotion-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      z-index: 100;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    #promotion-modal h3 {
+      margin-top: 0;
+      font-size: 16px;
+    }
+    #promotion-choices {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .promotion-choice {
+      width: 60px;
+      height: 60px;
+      padding: 4px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #f8f8f8;
+    }
+    .promotion-choice:hover {
+      background-color: #e0e0e0;
+    }
+    .promotion-choice img {
+      width: 100%;
+      height: 100%;
+    }
+
     #status {
       font-size: 18px;
       margin-bottom: 10px;
@@ -96,6 +136,11 @@
       display: inline-block;
       margin-right: 10px;
       cursor: pointer;
+    }
+    .move-entry.active {
+      background: #f6f669;
+      border-radius: 3px;
+      padding: 2px 4px;
     }
     .square-55d63 {
       position: relative;
@@ -142,7 +187,16 @@
       <button onclick="closeSettings()">Close</button>
     </div>
   </div>
-  
+
+  <div class="modal-backdrop" id="promotion-backdrop" onclick="cancelPromotion()"></div>
+  <div id="promotion-modal">
+    <h3>승진할 기물을 선택하세요</h3>
+    <div id="promotion-choices"></div>
+    <div style="text-align: right; margin-top: 15px;">
+      <button type="button" onclick="cancelPromotion()">Cancel</button>
+    </div>
+  </div>
+
   <div class="board-wrapper">
     <div id="board"></div>
     <svg id="arrow-overlay">
@@ -154,7 +208,7 @@
     </svg>
     <button class="settings-btn" onclick="openSettings()" title="Settings">⚙️</button>
   </div>
-  
+
   <div id="status"></div>
   <div id="opening-name"></div>
   <button onclick="restartGame()">Restart</button>
@@ -162,16 +216,29 @@
   <div id="moves"></div>
 
 <script>
-  
+
   const game = new Chess();
   let board = null;
-  let historyStates = [];
+
+  let historyStates = [game.fen()];
+  let currentPly = 0;
+
   let selectedSquare = null;
   let possibleMoves = [];
+  let pendingPromotion = null; // { from, to }
 
   let openings = [];
-  
+
   let isCheckAlarmEnabled = false;
+
+  function isLive() {
+    return currentPly === historyStates.length - 1;
+  }
+
+  function getDisplayGame() {
+    return isLive() ? game : new Chess(historyStates[currentPly]);
+  }
+
   function openSettings(){
     $('#modal-backdrop').show();
     $('#settings-modal').show();
@@ -184,6 +251,48 @@
     isCheckAlarmEnabled = document.getElementById('check-alarm-toggle').checked;
     updateStatus();
   }
+
+  function showPromotionModal() {
+    $('#promotion-backdrop').show();
+    $('#promotion-modal').show();
+  }
+  function hidePromotionModal() {
+    $('#promotion-backdrop').hide();
+    $('#promotion-modal').hide();
+  }
+
+  function openPromotionPicker(color, from, to) {
+    pendingPromotion = { from, to };
+    const pieces = ['q', 'r', 'b', 'n'];
+    const $choices = $('#promotion-choices').empty();
+    pieces.forEach(p => {
+      const $btn = $('<button type="button" class="promotion-choice"></button>')
+        .append($('<img>').attr('src', `img/${color}${p.toUpperCase()}.svg`).attr('alt', p))
+        .on('click', () => resolvePromotion(p));
+      $choices.append($btn);
+    });
+    showPromotionModal();
+  }
+
+  function resolvePromotion(piece) {
+    if (!pendingPromotion) return;
+    const { from, to } = pendingPromotion;
+    pendingPromotion = null;
+    hidePromotionModal();
+
+    const move = game.move({ from, to, promotion: piece });
+    board.position(game.fen(), false);
+    if (move === null) return;
+    recordMove();
+  }
+
+  function cancelPromotion() {
+    if (!pendingPromotion) return;
+    pendingPromotion = null;
+    hidePromotionModal();
+    board.position(game.fen(), false);
+  }
+
   function clearVisuals() {
     $('#board .square-55d63').removeClass('check-danger');
     const overlay = document.getElementById('arrow-overlay');
@@ -193,11 +302,10 @@
   function drawArrow(fromSquare, toSquare) {
     const $board = $('#board');
     const boardPos = $board.offset();
-    
-    // DOM 요소 위치를 기반으로 좌표 계산 (보드 뒤집힘 대응)
+
     const $from = $(`#board .square-${fromSquare}`);
     const $to = $(`#board .square-${toSquare}`);
-    
+
     if ($from.length === 0 || $to.length === 0) return;
 
     const fromPos = $from.offset();
@@ -205,13 +313,11 @@
     const squareWidth = $from.width();
     const squareHeight = $from.height();
 
-    // SVG 오버레이 기준 상대 좌표 (중심점)
     const x1 = fromPos.left - boardPos.left + squareWidth / 2;
     const y1 = fromPos.top - boardPos.top + squareHeight / 2;
     const x2 = toPos.left - boardPos.left + squareWidth / 2;
     const y2 = toPos.top - boardPos.top + squareHeight / 2;
 
-    // SVG Path 생성
     const ns = "http://www.w3.org/2000/svg";
     const path = document.createElementNS(ns, 'path');
     path.setAttribute('d', `M${x1},${y1} L${x2},${y2}`);
@@ -224,16 +330,15 @@
     document.getElementById('arrow-overlay').appendChild(path);
   }
 
-  function visualizeCheck() {
+  function visualizeCheck(sourceGame) {
     clearVisuals();
-    if (!game.in_check()) return;
+    if (!sourceGame.in_check()) return;
 
-    const turn = game.turn(); // 'w' or 'b' (현재 턴인 사람이 체크 당함)
-    const boardState = game.board();
+    const turn = sourceGame.turn();
+    const boardState = sourceGame.board();
     let kingSquare = null;
 
-    // 1. 킹의 위치 찾기
-    for (let r = 0; r < 8; r++) {
+    for (let r = 0; r < 8 && !kingSquare; r++) {
       for (let c = 0; c < 8; c++) {
         const piece = boardState[r][c];
         if (piece && piece.type === 'k' && piece.color === turn) {
@@ -248,24 +353,24 @@
 
     if (!kingSquare) return;
 
-    // 2. 킹 타일 붉은색 강조
     $(`#board .square-${kingSquare}`).addClass('check-danger');
 
-    // 3. 공격 기물 찾기 및 화살표 그리기
     const opponentColor = turn === 'w' ? 'b' : 'w';
     const squares = ['a','b','c','d','e','f','g','h'];
-    
-    // 보드 전체를 순회하며 적 기물이 킹을 공격할 수 있는지 확인
+
+    const fenParts = sourceGame.fen().split(' ');
+    fenParts[1] = opponentColor;
+    const probe = new Chess(fenParts.join(' '));
+
     for (let r = 1; r <= 8; r++) {
-      for (let f of squares) {
+      for (const f of squares) {
         const sq = f + r;
-        const piece = game.get(sq);
-        
+        const piece = probe.get(sq);
+
         if (piece && piece.color === opponentColor) {
-          // 해당 적 기물의 모든 합법적 이동 경로 확인
-          const moves = game.moves({ square: sq, verbose: true });
+          const moves = probe.moves({ square: sq, verbose: true, legal: false });
           const attacksKing = moves.some(m => m.to === kingSquare);
-          
+
           if (attacksKing) {
             drawArrow(sq, kingSquare);
           }
@@ -274,34 +379,55 @@
     }
   }
 
-  
+
   fetch('openings.json')
     .then(response => response.json())
     .then(data => { openings = data; })
     .catch(err => { console.error('Failed to load openings.json', err); });
 
-  function onDrop(source, target, piece, newPos, oldPos, orientation) {
-    const move = game.move({ from: source, to: target, promotion: 'q' });
-    if (move === null) return 'snapback';
-
+  function recordMove() {
     historyStates.push(game.fen());
+    currentPly = historyStates.length - 1;
     updateStatus();
     renderMoveHistory();
   }
-  
+
+  function onDragStart(source, piece, position, orientation) {
+    if (!isLive()) return false;
+  }
+
+  function onDrop(source, target, piece) {
+    if (source === target) return 'snapback';
+
+    const legalMoves = game.moves({ square: source, verbose: true });
+    const candidate = legalMoves.find(m => m.to === target);
+    if (!candidate) return 'snapback';
+
+    if (candidate.promotion) {
+      openPromotionPicker(piece[0], source, target);
+      return;
+    }
+
+    const move = game.move({ from: source, to: target });
+    if (move === null) return 'snapback';
+    recordMove();
+  }
+
   function onSnapEnd() {
+    if (pendingPromotion) return;
     board.position(game.fen());
   }
 
   function updateStatus() {
+    const displayGame = getDisplayGame();
     let status = '';
-    const moveColor = game.turn() === 'w' ? 'White' : 'Black';
+    const moveColor = displayGame.turn() === 'w' ? 'White' : 'Black';
 
-    if (game.in_checkmate()) {
+    if (displayGame.in_checkmate()) {
       status = `Game over - ${moveColor} is in checkmate.`;
-    } else if (game.in_draw()) {
+    } else if (displayGame.in_draw()) {
       status = 'Draw.';
-    } else if (game.in_check()) {
+    } else if (displayGame.in_check()) {
       status = `${moveColor} is in check.`;
     } else {
       status = '';
@@ -321,18 +447,29 @@
       return matched;
     }
 
-    // Opening Detected
-    const currentOpening = detectOpening(game.history());
+    const displayHistory = game.history().slice(0, currentPly);
+    const currentOpening = detectOpening(displayHistory);
     document.getElementById('status').innerText = status;
     document.getElementById('opening-name').innerText =
       currentOpening ? `${currentOpening}` : '';
-    
+
     if (isCheckAlarmEnabled) {
-      visualizeCheck();
+      visualizeCheck(displayGame);
     }
     else {
       clearVisuals();
     }
+  }
+
+  function viewPly(ply) {
+    if (ply === currentPly) return;
+    currentPly = ply;
+    board.position(historyStates[currentPly], false);
+    selectedSquare = null;
+    possibleMoves = [];
+    removeHighlights();
+    updateStatus();
+    renderMoveHistory();
   }
 
   function renderMoveHistory() {
@@ -348,22 +485,10 @@
       if (i + 1 < history.length) text += ` ${history[i + 1].san}`;
       span.innerText = text;
 
-      // click event
-      span.onclick = () => {
-        const totalMoves = game.history().length;
-        const targetMoveIndex = i + 1 < totalMoves ? i + 1 : i;
+      const targetPly = (i + 1 < history.length) ? i + 2 : i + 1;
+      if (targetPly === currentPly) span.classList.add('active');
 
-        while (game.history().length > targetMoveIndex + 1) game.undo();
-
-        board.position(game.fen(), false);
-        updateStatus();
-        historyStates = game.history().map((_, k) => {
-          const tmp = new Chess();
-          game.history().slice(0, k + 1).forEach(m => tmp.move(m));
-          return tmp.fen();
-        });
-        renderMoveHistory();
-      };
+      span.onclick = () => viewPly(targetPly);
 
       container.appendChild(span);
     }
@@ -372,22 +497,29 @@
   function restartGame() {
     game.reset();
     board.start();
-    updateStatus();
-    document.getElementById('moves').innerHTML = '';
-    historyStates = [];
+    historyStates = [game.fen()];
+    currentPly = 0;
     selectedSquare = null;
     possibleMoves = [];
+    pendingPromotion = null;
+    hidePromotionModal();
+    updateStatus();
+    renderMoveHistory();
   }
 
   function undoMove() {
-    game.undo();
+    const move = game.undo();
+    if (!move) return;
     historyStates.pop();
+    currentPly = historyStates.length - 1;
     board.position(game.fen(), false);
     updateStatus();
     renderMoveHistory();
   }
 
   function onSquareClick(square) {
+    if (!isLive()) return; 
+
     // reselect, cancel
     if (selectedSquare === square) {
       selectedSquare = null;
@@ -408,18 +540,28 @@
       return;
     }
 
-    const move = game.move({ from: selectedSquare, to: square, promotion: 'q' });
-    if (move) {
-      board.position(game.fen(), true); // animated
-      historyStates.push(game.fen());
-      updateStatus();
-      renderMoveHistory();
-    }
+    const legalMoves = game.moves({ square: selectedSquare, verbose: true });
+    const candidate = legalMoves.find(m => m.to === square);
+    const from = selectedSquare;
 
     // reset state
     selectedSquare = null;
     possibleMoves = [];
     removeHighlights();
+
+    if (!candidate) return;
+
+    if (candidate.promotion) {
+      const piece = game.get(from);
+      openPromotionPicker(piece.color, from, square);
+      return;
+    }
+
+    const move = game.move({ from, to: square });
+    if (move) {
+      board.position(game.fen(), true); // animated
+      recordMove();
+    }
   }
 
   function highlightSquare(square) {
@@ -439,9 +581,14 @@
   board = Chessboard('board', {
     draggable: true,
     position: 'start',
+    onDragStart: onDragStart,
     onDrop: onDrop,
     onSnapEnd: onSnapEnd,
     pieceTheme: 'img/{piece}.svg'
+  });
+
+  $('#board').on('click', '.square-55d63', function () {
+    onSquareClick($(this).data('square'));
   });
 
   updateStatus();
