@@ -220,7 +220,15 @@
   .move-entry {
     display: inline-block;
     margin-right: 10px;
+  }
+  .move-san {
     cursor: pointer;
+    padding: 1px 3px;
+    border-radius: 3px;
+  }
+  .move-san.current-move {
+    background: #f6f669;
+    font-weight: bold;
   }
   #arrow-overlay {
     position: absolute;
@@ -276,10 +284,10 @@
   </div>
 
   <div id="status"></div>
-  <button onclick="restartGame()">Restart</button>
-  <button onclick="undoMove()">Undo</button>
   <div id="opening-name"></div>
   <div id="moves"></div>
+  <button onclick="restartGame()">Restart</button>
+  <button onclick="undoMove()">Undo</button>
 
 <script>
 'use strict';
@@ -1078,16 +1086,28 @@ function renderMoveHistory() {
 
   for (let i = 0; i < history.length; i += 2) {
     const moveNumber = Math.floor(i / 2) + 1;
-    const span = document.createElement('span');
-    span.className = 'move-entry';
-    let text = `${moveNumber}. ${history[i].san}`;
-    if (i + 1 < history.length) text += ` ${history[i + 1].san}`;
-    span.textContent = text;
+    const entry = document.createElement('span');
+    entry.className = 'move-entry';
+    entry.appendChild(document.createTextNode(`${moveNumber}. `));
 
-    const targetPly = (i + 1 < history.length) ? i + 2 : i + 1;
-    span.onclick = () => viewPly(targetPly);
+    const whitePly = i + 1;
+    const whiteSpan = document.createElement('span');
+    whiteSpan.className = 'move-san' + (whitePly === currentPly ? ' current-move' : '');
+    whiteSpan.textContent = history[i].san;
+    whiteSpan.onclick = () => viewPly(whitePly);
+    entry.appendChild(whiteSpan);
 
-    container.appendChild(span);
+    if (i + 1 < history.length) {
+      entry.appendChild(document.createTextNode(' '));
+      const blackPly = i + 2;
+      const blackSpan = document.createElement('span');
+      blackSpan.className = 'move-san' + (blackPly === currentPly ? ' current-move' : '');
+      blackSpan.textContent = history[i + 1].san;
+      blackSpan.onclick = () => viewPly(blackPly);
+      entry.appendChild(blackSpan);
+    }
+
+    container.appendChild(entry);
   }
 }
 
