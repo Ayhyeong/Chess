@@ -145,7 +145,10 @@
                       { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "d4"], "evaluation": 0.08, "name": "Four Knights Game: Scotch Variation" },
                       { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "h3"], "evaluation": 0.05, "name": "Four Knights Game: 4.h3" },
                       { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5"], "evaluation": 0.12, "name": "Four Knights Game: Spanish Variation" },
-                          { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Nd4"], "evaluation": 0, "name": "Four Knights: Double Spanish Variation" },
+                          { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Nd4"], "evaluation": 0, "name": "Four Knights Game: Double Spanish Variation" },
+                              { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Nd4", "O-O"], "evaluation": 0.16, "name": "Four Knights Game: Double Spanish Variation: 5.O-O" },
+                              { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Nd4", "d3"], "evaluation": 0.07, "name": "Four Knights Game: Double Spanish Variation: 5.d3" },
+                              { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Nd4", "Bxc6"], "evaluation": 0.00, "name": "Four Knights Game: Double Spanish Variation: 5.Bxc6" },
                           { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Bb4"], "evaluation": 0, "name": "Four Knights: Spanish: Rubinstein Counter-Gambit" },
 
                   { "moves": ["e4", "e5", "Nf3", "Nc6", "Bb5"], "evaluation": 0, "name": "Ruy López Opening" },
