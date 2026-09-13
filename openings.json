@@ -64,7 +64,7 @@
           { "moves": ["e4", "c6", "d4", "d5"], "evaluation": 0, "name": "Caro-Kann Defence" },
               { "moves": ["e4", "c6", "d4", "d5", "e5"], "evaluation": 0, "name": "Caro-Kann Defence: Advanced Variation" },
                   { "moves": ["e4", "c6", "d4", "d5", "e5", "Bf5", "h4"], "evaluation": 0, "name": "Caro-Kann Defence: Advanced: Tal Variation" },
-                  { "moves": ["e4", "c6", "d4", "d5", "e5", "Bf5", "Bd3", "Bxd3", "Qxd3", "e6", "f4", "g6", "Nf3", "Qb6", "O-O", "c5", "c3", "Nc6", "b3", "Rc8", "Be3", "cxd4", "Nxd4", "Nxd4", "cxd4", "Ne7"], "evaluation": 0, "name": "Caro-Kann Defence: Caro's Untersuchung B. (Bröderschaft, 1886)" },
+                  { "moves": ["e4", "c6", "d4", "d5", "e5", "Bf5", "Bd3", "Bxd3", "Qxd3", "e6", "f4", "g6", "Nf3", "Qb6", "O-O", "c5", "c3", "Nc6", "b3", "Rc8", "Be3", "cxd4", "Nxd4", "Nxd4", "cxd4", "Ne7"], "evaluation": -0.08, "name": "Caro-Kann Defence: Caro's Untersuchung B. (Bröderschaft, 1886)" },
               { "moves": ["e4", "c6", "d4", "d5", "exd5"], "evaluation": 0, "name": "Caro-Kann Defence: Exchange Variation" },
                   { "moves": ["e4", "c6", "d4", "d5", "exd5", "Qxd5", "Nc3", "Qd8", "Nf3", "Bg4", "Be2", "Bxf3", "Bxf3", "e6", "O-O", "Nf6", "Bf4", "Be7", "Ne2", "Nd7", "c3", "O-O"], "evaluation": 0, "name": "Caro-Kann Defence: Caro's Untersuchung C. (Bröderschaft, 1886)" },
               { "moves": ["e4", "c6", "d4", "d5", "Nc3", "dxe4", "Nxe4"], "evaluation": 0.25, "name": "Caro-Kann Defence" },
