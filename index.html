@@ -845,6 +845,21 @@ let pendingPromotion = null; // { from, to }
 let openings = [];
 let isCheckAlarmEnabled = false;
 
+function detectOpening(history) {
+  let matched = null;
+  let maxLength = 0;
+  for (const opening of openings) {
+    if (!opening || !Array.isArray(opening.moves)) continue; // openings.json 항목 형식이 어긋나도 무시하고 계속 진행
+    if (history.length < opening.moves.length) continue;
+    const match = opening.moves.every((move, i) => move === history[i]);
+    if (match && opening.moves.length > maxLength) {
+      matched = opening;
+      maxLength = opening.moves.length;
+    }
+  }
+  return matched;
+}
+
 function isLive() { return currentPly === historyStates.length - 1; }
 function getDisplayGame() { return isLive() ? game : new Chess(historyStates[currentPly]); }
 function currentDisplayFen() { return isLive() ? game.fen() : historyStates[currentPly]; }
@@ -1023,24 +1038,6 @@ function updateStatus() {
     status = '';
   }
 
-  // history와 완전히 일치하는(길이도 같고 모든 수도 같은) openings 항목 중 가장 긴 것을 찾는다.
-  // history가 늘어나도 이전에 성립한 일치는 계속 유효하므로("prefix"는 절대 깨지지 않음),
-  // 매번 이렇게 "가장 긴 일치"를 다시 계산하는 것만으로도 "새 오프닝이 나오기 전까진 이전 걸 유지"가 자동으로 된다.
-  function detectOpening(history) {
-    let matched = null;
-    let maxLength = 0;
-    for (const opening of openings) {
-      if (!opening || !Array.isArray(opening.moves)) continue; // openings.json 항목 형식이 어긋나도 무시하고 계속 진행
-      if (history.length < opening.moves.length) continue;
-      const match = opening.moves.every((move, i) => move === history[i]);
-      if (match && opening.moves.length > maxLength) {
-        matched = opening;
-        maxLength = opening.moves.length;
-      }
-    }
-    return matched;
-  }
-
   const displayHistory = game.history().slice(0, currentPly);
   const currentOpening = detectOpening(displayHistory);
   document.getElementById('status').textContent = status;
@@ -1084,6 +1081,11 @@ function renderMoveHistory() {
   const container = document.getElementById('moves');
   container.innerHTML = '';
 
+  // 실제 마지막 수가 아니라, openings.json과 일치하는 것 중 가장 마지막 수를 강조한다.
+  const displayHistory = game.history().slice(0, currentPly);
+  const currentOpening = detectOpening(displayHistory);
+  const highlightPly = currentOpening ? currentOpening.moves.length : null;
+
   for (let i = 0; i < history.length; i += 2) {
     const moveNumber = Math.floor(i / 2) + 1;
     const entry = document.createElement('span');
@@ -1092,7 +1094,7 @@ function renderMoveHistory() {
 
     const whitePly = i + 1;
     const whiteSpan = document.createElement('span');
-    whiteSpan.className = 'move-san' + (whitePly === currentPly ? ' current-move' : '');
+    whiteSpan.className = 'move-san' + (whitePly === highlightPly ? ' current-move' : '');
     whiteSpan.textContent = history[i].san;
     whiteSpan.onclick = () => viewPly(whitePly);
     entry.appendChild(whiteSpan);
@@ -1101,7 +1103,7 @@ function renderMoveHistory() {
       entry.appendChild(document.createTextNode(' '));
       const blackPly = i + 2;
       const blackSpan = document.createElement('span');
-      blackSpan.className = 'move-san' + (blackPly === currentPly ? ' current-move' : '');
+      blackSpan.className = 'move-san' + (blackPly === highlightPly ? ' current-move' : '');
       blackSpan.textContent = history[i + 1].san;
       blackSpan.onclick = () => viewPly(blackPly);
       entry.appendChild(blackSpan);
