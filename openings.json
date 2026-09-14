@@ -60,6 +60,7 @@
               { "moves": ["e4", "c5", "b4", "cxb4", "a3", "bxa3"], "evaluation": -0, "name": " " },
                   { "moves": ["e4", "c5", "b4", "cxb4", "a3", "bxa3", "Nf3"], "evaluation": 0, "name": " " },
 
+  
       { "moves": ["e4", "c6"], "evaluation": 0, "name": "Caro-Kann Defence" },
           { "moves": ["e4", "c6", "d4", "d5"], "evaluation": 0, "name": "Caro-Kann Defence" },
               { "moves": ["e4", "c6", "d4", "d5", "e5"], "evaluation": 0, "name": "Caro-Kann Defence: Advanced Variation" },
@@ -77,19 +78,21 @@
                   { "moves": ["e4", "c6", "d4", "d5", "Nc3", "dxe4", "Nxe4", "Nd7"], "evaluation": 0.28, "name": "Caro-Kann Defence" },
                   { "moves": ["e4", "c6", "d4", "d5", "Nc3", "dxe4", "Nxe4", "Nf6"], "evaluation": 0.31, "name": "Caro-Kann Defence" },
 
+  
       { "moves": ["e4", "d5"], "evaluation": 0.5, "name": "Scandinavian Defence" },
           { "moves": ["e4", "d5", "e5"], "evaluation": 0.0, "name": "Scandinavian Defence: 2.e5" },
           { "moves": ["e4", "d5", "Nc3"], "evaluation": 0, "name": "Scandinavian Defence: Closed" },
           { "moves": ["e4", "d5", "Nf3"], "evaluation": -0.7, "name": "Scandinavian Defence: Tennison Gambit" },
 
+  
       { "moves": ["e4", "e5"], "evaluation": 0.28, "name": "Double King's Pawn Opening" },
 
           { "moves": ["e4", "e5", "d4"], "evaluation": -0.1, "name": "Center Game" },
               { "moves": ["e4", "e5", "d4", "d5"], "evaluation": 1.6, "name": "Center Game: Beyer Gambit" },
-                  { "moves": ["e4", "e5", "d4", "exd4", "dxe5"], "evaluation": 1.6, "name": "Center Game: Beyer Gambit: 3.dxe5" },
-                  { "moves": ["e4", "e5", "d4", "exd4", "exd5"], "evaluation": 0.2, "name": "Center Game: Beyer Gambit: 3.exd5" },
-                  { "moves": ["e4", "e5", "d4", "exd4", "Nf3"], "evaluation": 0.4, "name": "Center Game: Beyer Gambit: 3.Nf3" },
-                  { "moves": ["e4", "e5", "d4", "exd4"], "evaluation": -0.1, "name": "Center Game Accepted" },
+              { "moves": ["e4", "e5", "d4", "exd4"], "evaluation": -0.1, "name": "Center Game Accepted" },
+                  { "moves": ["e4", "e5", "d4", "exd4", "dxe5"], "evaluation": 1.6, "name": "Center Game Accepted: 3.dxe5" },
+                  { "moves": ["e4", "e5", "d4", "exd4", "exd5"], "evaluation": 0.2, "name": "Center Game Accepted: 3.exd5" },
+                  { "moves": ["e4", "e5", "d4", "exd4", "Nf3"], "evaluation": 0.4, "name": "Center Game Accepted: 3.Nf3" },
   
           { "moves": ["e4", "e5", "f4"], "evaluation": -0.56, "name": "King's Gambit" },
               { "moves": ["e4", "e5", "f4", "exf4"], "evaluation": -0.56, "name": "King's Gambit Accepted" },
@@ -124,6 +127,24 @@
               { "moves": ["e4", "e5", "f4", "Bc5"], "evaluation": 0, "name": "King's Gambit Declined: Classical Defence" },
               { "moves": ["e4", "e5", "f4", "Nf6"], "evaluation": 0, "name": "King's Gambit Declined: Petrov's Defence" },
 
+          { "moves": ["e4", "e5", "Nc3"], "evaluation": 0, "name": "Vienna Game" },
+              { "moves": ["e4", "e5", "Nc3", "Nc6"], "evaluation": 0, "name": "Vienna Game: Max Lange Defence" },
+                  { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3"], "evaluation": 0.12, "name": "Three Knights Opening" },
+                      { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6"], "evaluation": 0.12, "name": "Four Knights Game" },
+                      { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "d4"], "evaluation": 0.08, "name": "Four Knights Game: Scotch Variation" },
+                      { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "h3"], "evaluation": 0.05, "name": "Four Knights Game: 4.h3" },
+                      { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "Bb5"], "evaluation": 0.12, "name": "Four Knights Game: Spanish Variation" },
+                          { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "Bb5", "Nd4"], "evaluation": 0, "name": "Four Knights Game: Double Spanish Variation" },
+                              { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "Bb5", "Nd4", "O-O"], "evaluation": 0.16, "name": "Four Knights Game: Double Spanish Variation: 5.O-O" },
+                              { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "Bb5", "Nd4", "d3"], "evaluation": 0.07, "name": "Four Knights Game: Double Spanish Variation: 5.d3" },
+                              { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "Bb5", "Nd4", "Bxc6"], "evaluation": 0.00, "name": "Four Knights Game: Double Spanish Variation: 5.Bxc6" },
+                          { "moves": ["e4", "e5", "Nc3", "Nc6", "Nf3", "Nf6", "Bb5", "Bb4"], "evaluation": 0, "name": "Four Knights: Spanish: Rubinstein Counter-Gambit" },
+  
+                  { "moves": ["e4", "e5", "Nc3", "Nc6", "f4"], "evaluation": 0, "name": "Vienna Game: Max Lange: Vienna Gambit" },
+                      { "moves": ["e4", "e5", "Nc3", "Nc6", "f4", "exf4", "d4"], "evaluation": -0.5, "name": "Vienna Game: Vienna Gambit: Steinitz Gambit" },
+                      { "moves": ["e4", "e5", "Nc3", "Nc6", "f4", "exf4", "Nf3"], "evaluation": -0.8, "name": "Vienna Game: Vienna Gambit: Knight Variation" },
+
+  
           { "moves": ["e4", "e5", "Nf3"], "evaluation": 0, "name": "King's Knight Opening" },
 
               { "moves": ["e4", "e5", "Nf3", "f5"], "evaluation": 0, "name": "Latvian Gambit" },
@@ -206,6 +227,9 @@
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "f4"], "evaluation": -1.0, "name": "Bishop's Opening: Berlin Defence: Greco Gambit" },
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "Nf3"], "evaluation": -0.5, "name": "Bishop's Opening: Berlin Defence: Petrov's Defence, Urusov Gambit" },
 
+
+      { "moves": ["e4", "d6"], "evaluation": 0, "name": "Pirc Defence" },
+          { "moves": ["e4", "d6", "d4", "e5"], "evaluation": 0, "name": "Pirc Defence: Maróczy Defence" },
   
       { "moves": ["e4", "e6"], "evaluation": 0.2, "name": "French Defence" },
           { "moves": ["e4", "e6", "d4"], "evaluation": 0, "name": "French Defence: Normal Variation" },
