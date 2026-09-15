@@ -1054,7 +1054,7 @@ function updateEvalBar(evaluation) {
   const clamped = Math.min(96, Math.max(4, pct));
   document.getElementById('eval-fill').style.height = pct + '%';
   document.getElementById('eval-label').style.bottom = clamped + '%';
-  document.getElementById('eval-label').textContent = (evaluation > 0 ? '+' : '') + evaluation.toFixed(1);
+  document.getElementById('eval-label').textContent = (evaluation > 0 ? '+' : '') + evaluation.toFixed(2);
 }
 
 function recordMove() {
