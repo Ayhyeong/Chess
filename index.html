@@ -218,6 +218,9 @@
     font-size: 18px;
     margin-bottom: 10px;
   }
+  #opening-name {
+    font-weight: bold;
+  }
   button {
     padding: 8px 16px;
     font-size: 16px;
@@ -244,9 +247,11 @@
     padding: 1px 3px;
     border-radius: 3px;
   }
+  .move-san.opening-move {
+    font-weight: bold;
+  }
   .move-san.current-move {
     background: #f6f669;
-    font-weight: bold;
   }
   #arrow-overlay {
     position: absolute;
@@ -1076,7 +1081,7 @@ function updateStatus() {
     status = `Game over - ${moveColor} is in checkmate.`;
   } else if (displayGame.in_draw()) {
     status = 'Draw.';
-  } else if (displayGame.in_check()) {
+  } else if (displayGame.in_check() && isCheckAlarmEnabled) {
     status = `${moveColor} is in check.`;
   } else {
     status = '';
@@ -1128,10 +1133,13 @@ function renderMoveHistory() {
   const container = document.getElementById('moves');
   container.innerHTML = '';
 
-  // 실제 마지막 수가 아니라, openings.json과 일치하는 것 중 가장 마지막 수를 강조한다.
-  const displayHistory = game.history().slice(0, currentPly);
-  const currentOpening = isMoveHighlightEnabled ? detectOpening(displayHistory) : null;
-  const highlightPly = currentOpening ? currentOpening.moves.length : null;
+  // 볼드는 항상 openings.json과 일치하는 마지막 수, 하이라이트는 지금 보고 있는 수를 가리킨다.
+  const currentOpening = detectOpening(game.history().slice(0, currentPly));
+  const openingPly = currentOpening ? currentOpening.moves.length : null;
+  const highlightPly = isMoveHighlightEnabled ? currentPly : null;
+  const sanClass = ply => 'move-san'
+    + (ply === openingPly ? ' opening-move' : '')
+    + (ply === highlightPly ? ' current-move' : '');
 
   for (let i = 0; i < history.length; i += 2) {
     const moveNumber = Math.floor(i / 2) + 1;
@@ -1141,7 +1149,7 @@ function renderMoveHistory() {
 
     const whitePly = i + 1;
     const whiteSpan = document.createElement('span');
-    whiteSpan.className = 'move-san' + (whitePly === highlightPly ? ' current-move' : '');
+    whiteSpan.className = sanClass(whitePly);
     whiteSpan.textContent = history[i].san;
     whiteSpan.onclick = () => viewPly(whitePly);
     entry.appendChild(whiteSpan);
@@ -1150,7 +1158,7 @@ function renderMoveHistory() {
       entry.appendChild(document.createTextNode(' '));
       const blackPly = i + 2;
       const blackSpan = document.createElement('span');
-      blackSpan.className = 'move-san' + (blackPly === highlightPly ? ' current-move' : '');
+      blackSpan.className = sanClass(blackPly);
       blackSpan.textContent = history[i + 1].san;
       blackSpan.onclick = () => viewPly(blackPly);
       entry.appendChild(blackSpan);
