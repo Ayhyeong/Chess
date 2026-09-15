@@ -27,6 +27,8 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
+    transform: rotate(var(--board-rotation, 0deg));
+    transition: transform 0.4s ease;
   }
 
   #eval-bar {
@@ -39,6 +41,7 @@
     border: 1px solid #333;
     border-radius: 3px;
     overflow: hidden;
+    transition: background 0.3s ease;
   }
   #eval-fill {
     position: absolute;
@@ -47,7 +50,7 @@
     width: 100%;
     height: 50%;
     background: #f0f0f0;
-    transition: height 0.3s ease;
+    transition: height 0.3s ease, background 0.3s ease;
   }
   #eval-label {
     position: absolute;
@@ -63,6 +66,10 @@
     white-space: nowrap;
     transition: bottom 0.3s ease;
   }
+
+  /* 보드를 뒤집어도 막대는 그대로 두고, 흑/백 색만 맞바꾼다. */
+  #eval-bar.flipped { background: #f0f0f0; }
+  #eval-bar.flipped #eval-fill { background: #333; }
 
   .square {
     position: relative;
@@ -92,6 +99,16 @@
   .square.light .coord { color: #b58863; }
   .square.dark  .coord { color: #f0d9b5; }
 
+  /* 보드가 돌아간 만큼 되돌려서, 기물과 좌표 글자는 항상 똑바로 보이게 한다. */
+  #board img.piece,
+  #board .coord {
+    transform: rotate(calc(-1 * var(--board-rotation, 0deg)));
+    transition: transform 0.4s ease;
+  }
+  /* 뒤집힌 보드에서는 칸의 반대쪽 구석에 붙여야 화면상 같은 위치에 보인다. */
+  #board.flipped .coord.file { top: 2px; left: 3px; bottom: auto; right: auto; }
+  #board.flipped .coord.rank { bottom: 2px; right: 3px; top: auto; left: auto; }
+
   .square img.piece {
     width: 100%;
     height: 100%;
@@ -108,9 +125,8 @@
     object-fit: contain;
   }
 
-  .settings-btn {
+  .settings-btn, .flip-btn {
     position: absolute;
-    top: 0;
     right: -50px;
     background: none;
     border: 1px solid #ccc;
@@ -124,7 +140,9 @@
     justify-content: center;
     transition: background 0.2s;
   }
-  .settings-btn:hover {
+  .settings-btn { top: 0; }
+  .flip-btn { top: 50px; }
+  .settings-btn:hover, .flip-btn:hover {
     background-color: #f0f0f0;
   }
   #settings-modal {
@@ -253,6 +271,12 @@
         Check Alert
       </label>
     </div>
+    <div class="setting-item">
+      <label>
+        <input type="checkbox" id="move-highlight-toggle" checked onchange="toggleMoveHighlight()">
+        Move Highlight
+      </label>
+    </div>
     <div style="text-align: right; margin-top: 15px;">
       <button onclick="closeSettings()">Close</button>
     </div>
@@ -281,6 +305,7 @@
       </defs>
     </svg>
     <button class="settings-btn" onclick="openSettings()" title="Settings">⚙️</button>
+    <button class="flip-btn" onclick="flipBoard()" title="Flip Board">🔃</button>
   </div>
 
   <div id="status"></div>
@@ -844,7 +869,13 @@ let pendingPromotion = null; // { from, to }
 
 let openings = [];
 let isCheckAlarmEnabled = false;
+let isMoveHighlightEnabled = true;
+let isBoardFlipped = false;
+let boardRotation = 0;
 
+// history와 완전히 일치하는(길이도 같고 모든 수도 같은) openings 항목 중 가장 긴 것을 찾는다.
+// history가 늘어나도 이전에 성립한 일치는 계속 유효하므로("prefix"는 절대 깨지지 않음),
+// 매번 이렇게 "가장 긴 일치"를 다시 계산하는 것만으로도 "새 오프닝이 나오기 전까진 이전 걸 유지"가 자동으로 된다.
 function detectOpening(history) {
   let matched = null;
   let maxLength = 0;
@@ -875,22 +906,35 @@ function buildBoardDOM() {
       const isLight = (fileIdx + rank) % 2 === 0;
       sqEl.className = 'square ' + (isLight ? 'light' : 'dark');
       sqEl.dataset.square = square;
-
-      if (rank === 1) {
-        const fileLabel = document.createElement('span');
-        fileLabel.className = 'coord file';
-        fileLabel.textContent = file;
-        sqEl.appendChild(fileLabel);
-      }
-      if (file === 'a') {
-        const rankLabel = document.createElement('span');
-        rankLabel.className = 'coord rank';
-        rankLabel.textContent = String(rank);
-        sqEl.appendChild(rankLabel);
-      }
       boardEl.appendChild(sqEl);
     }
   }
+  renderCoords();
+}
+
+// 좌표 글자는 화면 기준 맨 아랫줄과 맨 왼쪽 줄에만 붙인다.
+// 보드를 뒤집으면 그 두 줄이 8랭크와 h파일로 바뀌므로 다시 붙여야 한다.
+function renderCoords() {
+  boardEl.querySelectorAll('.coord').forEach(el => el.remove());
+  const bottomRank = isBoardFlipped ? 8 : 1;
+  const leftFile = isBoardFlipped ? 'h' : 'a';
+
+  boardEl.querySelectorAll('.square').forEach(sqEl => {
+    const file = sqEl.dataset.square[0];
+    const rank = Number(sqEl.dataset.square[1]);
+    if (rank === bottomRank) {
+      const fileLabel = document.createElement('span');
+      fileLabel.className = 'coord file';
+      fileLabel.textContent = file;
+      sqEl.appendChild(fileLabel);
+    }
+    if (file === leftFile) {
+      const rankLabel = document.createElement('span');
+      rankLabel.className = 'coord rank';
+      rankLabel.textContent = String(rank);
+      sqEl.appendChild(rankLabel);
+    }
+  });
 }
 
 function syncPieces(fen) {
@@ -1052,9 +1096,12 @@ function updateEvalBar(evaluation) {
   // 폰 단위 evaluation을 시그모이드로 완만하게 0~100% 채움 비율로 변환 (0점이면 정확히 50%)
   const pct = 100 / (1 + Math.exp(-0.7 * evaluation));
   const clamped = Math.min(96, Math.max(4, pct));
-  document.getElementById('eval-fill').style.height = pct + '%';
-  document.getElementById('eval-label').style.bottom = clamped + '%';
-  document.getElementById('eval-label').textContent = (evaluation > 0 ? '+' : '') + evaluation.toFixed(2);
+  // 아래쪽 채움은 화면 아래쪽 진영의 몫이므로, 보드를 뒤집으면 흑 기준으로 뒤집어 칠한다.
+  const fillPct = isBoardFlipped ? 100 - pct : pct;
+  const labelPct = isBoardFlipped ? 100 - clamped : clamped;
+  document.getElementById('eval-fill').style.height = fillPct + '%';
+  document.getElementById('eval-label').style.bottom = labelPct + '%';
+  document.getElementById('eval-label').textContent = (evaluation > 0 ? '+' : '') + evaluation.toFixed(1);
 }
 
 function recordMove() {
@@ -1083,7 +1130,7 @@ function renderMoveHistory() {
 
   // 실제 마지막 수가 아니라, openings.json과 일치하는 것 중 가장 마지막 수를 강조한다.
   const displayHistory = game.history().slice(0, currentPly);
-  const currentOpening = detectOpening(displayHistory);
+  const currentOpening = isMoveHighlightEnabled ? detectOpening(displayHistory) : null;
   const highlightPly = currentOpening ? currentOpening.moves.length : null;
 
   for (let i = 0; i < history.length; i += 2) {
@@ -1147,6 +1194,22 @@ function closeSettings() {
 function toggleCheckAlarm() {
   isCheckAlarmEnabled = document.getElementById('check-alarm-toggle').checked;
   updateStatus();
+}
+function toggleMoveHighlight() {
+  isMoveHighlightEnabled = document.getElementById('move-highlight-toggle').checked;
+  renderMoveHistory();
+}
+
+function flipBoard() {
+  isBoardFlipped = !isBoardFlipped;
+  boardRotation += 180; // 누를 때마다 시계방향으로 이어서 돌린다
+  boardEl.style.setProperty('--board-rotation', boardRotation + 'deg');
+  boardEl.classList.toggle('flipped', isBoardFlipped);
+  document.getElementById('eval-bar').classList.toggle('flipped', isBoardFlipped);
+  renderCoords();
+  updateStatus(); // eval bar를 뒤집힌 기준으로 다시 칠한다
+  // 체크 화살표는 칸의 화면상 좌표로 그려지므로, 회전이 끝난 뒤의 위치로 다시 그린다.
+  boardEl.addEventListener('transitionend', () => updateStatus(), { once: true });
 }
 
 function showPromotionModal() {
