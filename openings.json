@@ -184,6 +184,9 @@
                                   { "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Ng5", "Be7", "Nf3", "Nf6", "c3"], "evaluation": -1.78, "name": "Scotch Game: Alpano Variation" },
                                   { "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Ng5", "Be7", "Nf3", "Nf6", "Bd3"], "evaluation": -1.81, "name": "Scotch Game: Alpano Variation" },
                                   { "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Ng5", "Be7", "Nf3", "Nf6", "e5"], "evaluation": -1.85, "name": "Scotch Game: Alpano Variation" },
+                      { "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "Nxd4"], "evaluation": 0, "name": "Scotch Game: Lolli Variation" },
+                          { "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "Nxd4", "Nxd4", "exd4", "Bc4"], "evaluation": 0.32, "name": "Scotch Game: Lolli Variation: Napolean Gambit" },
+                          { "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "Nxd4", "Nxd4", "exd4", "Qxd4"], "evaluation": 0, "name": "Scotch Game: Lolli Variation" },
   
                   { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3"], "evaluation": 0.12, "name": "Three Knights Opening" },
                       { "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6"], "evaluation": 0.12, "name": "Four Knights Game" },
