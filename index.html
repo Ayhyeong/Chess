@@ -1106,7 +1106,7 @@ function updateEvalBar(evaluation) {
   const labelPct = isBoardFlipped ? 100 - clamped : clamped;
   document.getElementById('eval-fill').style.height = fillPct + '%';
   document.getElementById('eval-label').style.bottom = labelPct + '%';
-  document.getElementById('eval-label').textContent = (evaluation > 0 ? '+' : '') + evaluation.toFixed(1);
+  document.getElementById('eval-label').textContent = (evaluation > 0 ? '+' : '') + evaluation.toFixed(2);
 }
 
 function recordMove() {
