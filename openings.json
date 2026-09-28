@@ -319,6 +319,8 @@
               { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
                   { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
                       { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "Bc4", "e6", "Qe2", "Nc6"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
+                          { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "Bc4", "e6", "Qe2", "Nc6", "Bb5", "Qd4", "Bxc6+"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
+                          { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "Bc4", "e6", "Qe2", "Nc6", "Bb5", "Qd4", "f3"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
                       { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "Bc4", "e6", "Qe2", "Qd4"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
                       { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "Bc4", "Bg6"], "evaluation": 0.0, "name": "Zukertort Opening: Tennison Gambit" },
                       { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "d3"], "evaluation": -1.40, "name": "Zukertort Opening: Tennison Gambit" },
