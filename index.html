@@ -59,9 +59,9 @@
     transform: translate(-50%, 50%);
     background: rgba(0, 0, 0, 0.75);
     color: #fff;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: bold;
-    padding: 1px 3px;
+    padding: 2px 5px;
     border-radius: 3px;
     white-space: nowrap;
     transition: bottom 0.3s ease;
@@ -94,7 +94,7 @@
     overflow: hidden;
     font-size: 9px;
     font-weight: bold;
-    line-height: 11px;
+    line-height: 15px;
     white-space: nowrap;
     transition: flex-grow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   }
@@ -358,7 +358,7 @@
     <div class="setting-item">
       <label>
         <input type="checkbox" id="move-highlight-toggle" checked onchange="toggleMoveHighlight()">
-        Move Highlight
+        Current Move Highlight
       </label>
     </div>
     <div class="setting-item has-help">
@@ -1242,10 +1242,9 @@ function updateEvalBar(evaluation, material) {
 }
 
 // unit = cp: 흰/검 두 칸이 만나는 경계에 evaluation 숫자를 적는다.
-// 백의 몫은 win÷(win+loss), 흑의 몫은 loss÷(win+loss).
 function renderCpBar(evaluation, win, loss) {
   const total = win + loss;
-  const pct = total > 0 ? 100 * win / total : 50;
+  const pct = 100 / (1 + Math.exp(-0.7 * evaluation));
   const clamped = Math.min(96, Math.max(4, pct));
   // 아래쪽 채움은 화면 아래쪽 진영의 몫이므로, 보드를 뒤집으면 흑 기준으로 뒤집어 칠한다.
   const fillPct = isBoardFlipped ? 100 - pct : pct;
