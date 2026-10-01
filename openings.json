@@ -33,6 +33,10 @@
           { "moves": ["d4", "d5", "c4", "e5"], "evaluation": 0, "name": "Queen's Gambit Declined, Albin Counter-Gambit" },
               { "moves": ["d4", "d5", "c4", "e5", "dxe5", "d4", "e3", "Bb4+", "Bd2", "dxe3"], "evaluation": 0, "name": "QGD: Albin Counter-Gambit: Lasker Variation" },
                   { "moves": ["d4", "d5", "c4", "e5", "dxe5", "d4", "e3", "Bb4+", "Bd2", "dxe3", "Bxb4"], "evaluation": 0, "name": "QGD: Albin Counter-Gambit: Lasker Trap" },
+              { "moves": ["d4", "d5", "c4", "e5", "dxe5", "d4", "Nf3", "Nc6"], "evaluation": 0, "name": "Queen's Gambit Declined, Albin Counter-Gambit" },
+                  { "moves": ["d4", "d5", "c4", "e5", "dxe5", "d4", "Nf3", "Nc6", "a3"], "evaluation": 0.69, "name": "Queen's Gambit Declined, Albin Counter-Gambit" },
+                  { "moves": ["d4", "d5", "c4", "e5", "dxe5", "d4", "Nf3", "Nc6", "Nbd2"], "evaluation": 0.65, "name": "Queen's Gambit Declined, Albin Counter-Gambit" },
+                  { "moves": ["d4", "d5", "c4", "e5", "dxe5", "d4", "Nf3", "Nc6", "g3"], "evaluation": 0.27, "name": "Queen's Gambit Declined, Albin Counter-Gambit" },
   
           { "moves": ["d4", "d5", "c4", "e6"], "evaluation": 0.3, "name": "Queen's Gambit Declined" },
               { "moves": ["d4", "d5", "c4", "e6", "Nc3"], "evaluation": 0.3, "name": "Queen's Gambit Declined: Queen's Knight Variation" },
