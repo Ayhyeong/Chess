@@ -290,6 +290,13 @@
 
           { "moves": ["e4", "e5", "Bc4"], "evaluation": 0, "name": "Bishop's Opening" },
               { "moves": ["e4", "e5", "Bc4", "Nf6"], "evaluation": 0, "name": "Bishop's Opening: Berlin Defence" },
+                  { "moves": ["e4", "e5", "Bc4", "Nf6", "d3"], "evaluation": 0.00, "name": "Bishop's Opening: Berlin Defence" },
+                      { "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "c6"], "evaluation": 0, "name": "Bishop's Opening: Berlin Defence" },
+                      { "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "be7"], "evaluation": 0.05, "name": "Bishop's Opening: Berlin Defence" },
+                      { "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "d6"], "evaluation": 0.08, "name": "Bishop's Opening: Berlin Defence" },
+                      { "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "Bc5"], "evaluation": 0.10, "name": "Bishop's Opening: Berlin Defence" },
+                      { "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "Nc6"], "evaluation": 0.12, "name": "Bishop's Opening: Berlin Defence" },
+                      { "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "a6"], "evaluation": 0.12, "name": "Bishop's Opening: Berlin Defence" },
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "d4"], "evaluation": -0.3, "name": "Bishop's Opening: Berlin Defence: Ponziani Gambit" },
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "f4"], "evaluation": -1.0, "name": "Bishop's Opening: Berlin Defence: Greco Gambit" },
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "Nf3"], "evaluation": -0.5, "name": "Bishop's Opening: Berlin Defence: Petrov's Defence, Urusov Gambit" },
