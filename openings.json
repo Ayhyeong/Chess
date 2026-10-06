@@ -361,4 +361,14 @@
                               { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Bf5", "Nc3", "Nf6", "d3", "exd3", "Qf3", "Qc8", "Bxd3", "Bxd3", "Qxd3", "Qd7", "Qc4", "e6", "O-O"], "evaluation": -1.74, "name": "Zukertort Opening: Tennison Gambit" },
           { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "Nf6", "Bc4", "e6", "Nc3", "a6", "Ngxe4", "Nxe4", "Nxe4", "b5", "Be2", "Bb7", "Bf3"], "evaluation": 0, "name": "Ermenkov–Bonchev, Bulgaria 1970" },
           { "moves": ["Nf3", "d5", "e4", "dxe4", "Ng5", "f5", "Bc4", "Nh6", "Nxh7", "Rxh7", "Qh5+", "Kd7", "Qg6", "Rh8", "Be6+", "Kc6", "Bxc8+", "Qd6", "Qe8+", "Kb6", "Qa4"], "evaluation": 0, "name": "Otto M. Tennison vs. NN, New Orleans 1891" }
+  
+      { "moves": ["Nf3", "e5", "Nxe5"], "evaluation": 1.74, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "Nf6"], "evaluation": 1.74, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "d6"], "evaluation": 1.80, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "d5"], "evaluation": 1.88, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "c6"], "evaluation": 1.90, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "Nc6"], "evaluation": 2.04, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "h6"], "evaluation": 2.14, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "Be7"], "evaluation": 2.10, "name": "Zukertort Opening" },
+          { "moves": ["Nf3", "e5", "Nxe5", "a6"], "evaluation": 2.17, "name": "Zukertort Opening" },
 ]
