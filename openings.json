@@ -83,6 +83,14 @@
                 { "moves": ["e4", "c5", "Nc3", "Nc6", "Nf3", "e5", "Bc4", "Be7"], "evaluation": 0.26, "name": "Closed Sicilian Defence" },
                 { "moves": ["e4", "c5", "Nc3", "Nc6", "Nf3", "e5", "Bc4", "h6"], "evaluation": 0.33, "name": "Closed Sicilian Defence" },
                 { "moves": ["e4", "c5", "Nc3", "Nc6", "Nf3", "e5", "Bc4", "g6"], "evaluation": 0.37, "name": "Closed Sicilian Defence" },
+        { "moves": ["e4", "c5", "Nf3"], "evaluation": 0, "name": "Sicilian Defence" },
+            { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3"], "evaluation": 0.05, "name": "Sicilian Defence" },
+                { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "Rb8"], "evaluation": 0.05, "name": "Sicilian Defence" },
+                { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "Bg5"], "evaluation": 0.07, "name": "Sicilian Defence" },
+                { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "O-O"], "evaluation": 0.11, "name": "Sicilian Defence" },
+                { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "Be6"], "evaluation": 0.12, "name": "Sicilian Defence" },
+                { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "Ne7"], "evaluation": 0.23, "name": "Sicilian Defence" },
+                { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "g6"], "evaluation": 0.24, "name": "Sicilian Defence" },
 
   
       { "moves": ["e4", "c6"], "evaluation": 0, "name": "Caro-Kann Defence" },
