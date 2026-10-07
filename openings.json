@@ -321,6 +321,11 @@
           { "moves": ["e4", "Nc6", "d4", "d5"], "evaluation": 0, "name": "Nimzowitsch Defence: Scandinavian Variation" },
               { "moves": ["e4", "Nc6", "d4", "d5", "Nc3"], "evaluation": 0, "name": "Nimzowitsch Defence: Scandinavian: Bogoljubov Variation" },
               { "moves": ["e4", "Nc6", "d4", "d5", "Nc3", "dxe4", "d5"], "evaluation": 0, "name": "Nimzowitsch Defence: Scandinavian: Bogoljubov: Berlin Gambit" },
+          { "moves": ["e4", "Nc6", "Nf3", "Nf6", "Bb5"], "evaluation": 0, "name": "Nimzowitsch Defence" },
+              { "moves": ["e4", "Nc6", "Nf3", "Nf6", "Bb5", "Nxe4"], "evaluation": -1.0, "name": "Nimzowitsch Defence" },
+              { "moves": ["e4", "Nc6", "Nf3", "Nf6", "Bb5", "e5"], "evaluation": 0.1, "name": "Nimzowitsch Defence" },
+              { "moves": ["e4", "Nc6", "Nf3", "Nf6", "Bb5", "a6"], "evaluation": 0.2, "name": "Nimzowitsch Defence" },
+              { "moves": ["e4", "Nc6", "Nf3", "Nf6", "Bb5", "g5"], "evaluation": 0.3, "name": "Nimzowitsch Defence" },
 
   
   { "moves": ["Nc3"], "evaluation": 0, "name": "Van Geet Opening" },
