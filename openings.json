@@ -115,6 +115,9 @@
           { "moves": ["e4", "d5", "Nc3"], "evaluation": 0, "name": "Scandinavian Defence: Closed" },
           { "moves": ["e4", "d5", "Nf3"], "evaluation": -0.7, "name": "Scandinavian Defence: Tennison Gambit" },
 
+      { "moves": ["e4", "d6"], "evaluation": 0, "name": "Pirc Defence" },
+          { "moves": ["e4", "d6", "d4", "e5"], "evaluation": 0, "name": "Pirc Defence: Maróczy Defence" },
+
   
       { "moves": ["e4", "e5"], "evaluation": 0.28, "name": "Double King's Pawn Opening" },
 
@@ -305,24 +308,29 @@
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "f4"], "evaluation": -1.0, "name": "Bishop's Opening: Berlin Defence: Greco Gambit" },
                   { "moves": ["e4", "e5", "Bc4", "Nf6", "Nf3"], "evaluation": -0.5, "name": "Bishop's Opening: Berlin Defence: Petrov's Defence, Urusov Gambit" },
 
-
-      { "moves": ["e4", "d6"], "evaluation": 0, "name": "Pirc Defence" },
-          { "moves": ["e4", "d6", "d4", "e5"], "evaluation": 0, "name": "Pirc Defence: Maróczy Defence" },
+      { "moves": ["e4", "e6"], "evaluation": 0.2, "name": "Défense française" },
+          { "moves": ["e4", "e6", "c4"], "evaluation": 0.00, "name": "Défense française: Steiner Variation" },
+              { "moves": ["e4", "e6", "c4", "d5"], "evaluation": 0.00, "name": "Défense française: Steiner Variation" },
+                  { "moves": ["e4", "e6", "c4", "d5", "exd5", "exd5", "cxd5", "Nf6"], "evaluation": 0.00, "name": "Défense française: Steiner Variation" },
+                  { "moves": ["e4", "e6", "c4", "d5", "cxd5", "exd5", "exd5", "Nf6"], "evaluation": 0.00, "name": "Défense française: Steiner Variation" },
+                      { "moves": ["e4", "e6", "c4", "d5", "cxd5", "exd5", "exd5", "Nf6", "Be2"], "evaluation": 0.00, "name": "Défense française: Steiner Variation" },
+                      { "moves": ["e4", "e6", "c4", "d5", "cxd5", "exd5", "exd5", "Nf6", "Nc3"], "evaluation": -0.02, "name": "Défense française: Steiner Variation" },
+                      { "moves": ["e4", "e6", "c4", "d5", "cxd5", "exd5", "exd5", "Nf6", "Nf3"], "evaluation": -0.03, "name": "Défense française: Steiner Variation" },
+                      { "moves": ["e4", "e6", "c4", "d5", "cxd5", "exd5", "exd5", "Nf6", "d4"], "evaluation": -0.04, "name": "Défense française: Steiner Variation" },
   
-      { "moves": ["e4", "e6"], "evaluation": 0.2, "name": "French Defence" },
-          { "moves": ["e4", "e6", "d4"], "evaluation": 0, "name": "French Defence: Normal Variation" },
-              { "moves": ["e4", "e6", "d4", "d5"], "evaluation": 0, "name": "French Defence: Exchange Variation" },
-                  { "moves": ["e4", "e6", "d4", "d5", "exd5", "exd5", "Nf3", "Nc6", "Nc3", "Nf6"], "evaluation": 0.00, "name": "French Defence: Exchange Variation: Four Knights Variation" },
-                  { "moves": ["e4", "e6", "d4", "d5", "exd5", "exd5", "Nf3", "Nf6", "Nc3", "Nc6"], "evaluation": 0.00, "name": "French Defence: Exchange Variation: Four Knights Variation" },
-                  { "moves": ["e4", "e6", "d4", "d5", "e5"], "evaluation": 0, "name": "French Defence: Advanced Variation" },
-                  { "moves": ["e4", "e6", "d4", "d5", "Nc3", "Nf6", "Bg5", "Be7", "e5", "Nfd7", "Bxe7", "Qxe7"], "evaluation": 0.4, "name": "French Defence: Classical Variation" },
-                  { "moves": ["e4", "e6", "d4", "d5", "Nf3"], "evaluation": 0, "name": "French Defence: Perseus Gambit" },
-                      { "moves": ["e4", "e6", "d4", "d5", "Nf3", "dxe4", "Ne5"], "evaluation": 0, "name": "French Defence: Perseus: Carlson Gambit" },
-          { "moves": ["e4", "e6", "Nc3"], "evaluation": 0, "name": "French Defence: Queen's Knight Variation" },
-              { "moves": ["e4", "e6", "Nc3", "d5", "Nf3"], "evaluation": 0, "name": "French Defence: Two Knights Variation" },
-          { "moves": ["e4", "e6", "Nf3"], "evaluation": 0, "name": "French Defence: King's Knight Variation" },
-              { "moves": ["e4", "e6", "Nf3", "d5", "Nc3"], "evaluation": 0, "name": "French Defence: Two Knights Variation" },
-          { "moves": ["e4", "e6", "Qe2"], "evaluation": 0, "name": "French Defence: Chigorin Variation" },
+          { "moves": ["e4", "e6", "d4"], "evaluation": 0, "name": "Défense française: Normal Variation" },
+              { "moves": ["e4", "e6", "d4", "d5"], "evaluation": 0, "name": "Défense française: Exchange Variation" },
+                  { "moves": ["e4", "e6", "d4", "d5", "exd5", "exd5", "Nf3", "Nc6", "Nc3", "Nf6"], "evaluation": 0.00, "name": "Défense française: Exchange Variation: Four Knights Variation" },
+                  { "moves": ["e4", "e6", "d4", "d5", "exd5", "exd5", "Nf3", "Nf6", "Nc3", "Nc6"], "evaluation": 0.00, "name": "Défense française: Exchange Variation: Four Knights Variation" },
+                  { "moves": ["e4", "e6", "d4", "d5", "e5"], "evaluation": 0, "name": "Défense française: Advanced Variation" },
+                  { "moves": ["e4", "e6", "d4", "d5", "Nc3", "Nf6", "Bg5", "Be7", "e5", "Nfd7", "Bxe7", "Qxe7"], "evaluation": 0.4, "name": "Défense française: Classical Variation" },
+                  { "moves": ["e4", "e6", "d4", "d5", "Nf3"], "evaluation": 0, "name": "Défense française: Perseus Gambit" },
+                      { "moves": ["e4", "e6", "d4", "d5", "Nf3", "dxe4", "Ne5"], "evaluation": 0, "name": "Défense française: Perseus: Carlson Gambit" },
+          { "moves": ["e4", "e6", "Nc3"], "evaluation": 0, "name": "Défense française: Queen's Knight Variation" },
+              { "moves": ["e4", "e6", "Nc3", "d5", "Nf3"], "evaluation": 0, "name": "Défense française: Two Knights Variation" },
+          { "moves": ["e4", "e6", "Nf3"], "evaluation": 0, "name": "Défense française: King's Knight Variation" },
+              { "moves": ["e4", "e6", "Nf3", "d5", "Nc3"], "evaluation": 0, "name": "Défense française: Two Knights Variation" },
+          { "moves": ["e4", "e6", "Qe2"], "evaluation": 0, "name": "Défense française: Chigorin Variation" },
 
 
       { "moves": ["e4", "Nc6"], "evaluation": 0, "name": "Nimzowitsch Defence" },
