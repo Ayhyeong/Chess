@@ -341,6 +341,70 @@
     pointer-events: none;
     z-index: 10;
   }
+
+  /* ---- 모바일 전용 레이아웃 ----
+     터치 화면(coarse pointer)이면서 폭이 500px 이하일 때만 적용된다.
+     PC 브라우저는 창을 아무리 좁혀도 이 블록의 영향을 받지 않는다.
+     (보드 400px + 왼쪽 평가 막대 42px + 오른쪽 버튼 45px = 약 490px라서
+      폭 500px 미만인 폰에서는 양옆이 화면 밖으로 잘렸다.)
+     세로 스크롤은 허용하므로, 가로 폭에 맞추는 것이 우선이고 높이는 보조 기준이다. */
+  @media (max-width: 500px) and (pointer: coarse) {
+    body { padding: 6px; }
+    h1 { font-size: 24px; margin: 4px 0 8px; }
+
+    .board-wrapper {
+      /* 가로: 평가 막대 자리 39 + 보드 B + 버튼 간격 7 + 버튼 0.1B + body 좌우 여백 12 <= 화면 폭
+             → B <= (100vw - 58px) / 1.1
+         세로: 제목 + 보드 아래 요소(두 줄짜리 오프닝명, 기보, 버튼)가 들어가도록 265px를 남긴 높이.
+         두 값 중 작은 쪽을 쓰므로 화면 비율이 달라도 거의 한 화면에 들어온다. (최대 400px, 높이 기준 최소 200px) */
+      --board-size: min(400px, calc((100vw - 58px) / 1.1), max(200px, calc(100vh - 265px)));
+      width: var(--board-size);
+      margin: 0 auto 8px;
+      /* 평가 막대 + 보드 + 버튼 전체를 화면 가운데에 맞춘다. (왼쪽 39 - 오른쪽 (7 + 0.1B)) / 2 */
+      left: calc(16px - var(--board-size) * 0.05);
+    }
+    /* svh는 주소창/하단바가 보이는 상태의 높이라서, 스크롤 중에 보드 크기가 흔들리지 않는다. */
+    @supports (height: 100svh) {
+      .board-wrapper {
+        --board-size: min(400px, calc((100vw - 58px) / 1.1), max(200px, calc(100svh - 265px)));
+      }
+    }
+
+    #eval-bar { left: -39px; }
+
+    /* 버튼도 보드와 같은 비율로 줄인다. PC는 보드 400px : 버튼 40px (= 10 : 1)이다.
+       전역 button { margin: 5px; padding: 8px 16px }를 지워야 작아진 크기가 그대로 나온다.
+       보드와의 가로 간격(5px)만 고정하고, 크기·글자·세로 위치는 모두 보드 크기에 비례한다. */
+    .settings-btn, .flip-btn {
+      margin: 0;
+      padding: 0;
+      width: calc(var(--board-size) * 0.1);
+      height: calc(var(--board-size) * 0.1);
+      font-size: calc(var(--board-size) * 0.05);
+      right: calc(-7px - var(--board-size) * 0.1);
+    }
+    .settings-btn { top: calc(var(--board-size) * 0.0125); }
+    .flip-btn { top: calc(var(--board-size) * 0.1375); }
+
+    /* 보드가 작아진 만큼 화살표 굵기(기본 8px = 보드 400px의 2%)와 화살촉도 비례해서 줄인다. */
+    #arrow-overlay path { stroke-width: calc(var(--board-size) * 0.02); }
+
+    #status { margin-bottom: 6px; }
+    #moves {
+      margin: 6px auto;
+      padding: 6px 8px;
+      max-height: 72px;
+    }
+
+    /* 폭이 아주 좁은 폰(iPhone SE 1세대 320px, 갤럭시 폴드 커버 화면 등)에서 팝업이 잘리지 않게 한다.
+       폭 360px 이상에서는 기존 크기(250px, 60px) 그대로다.
+       승진 선택 버튼은 전역 button { margin: 5px }도 받으므로, 4개 폭 + 여백/간격/팝업 테두리 122px를 뺀 값으로 맞춘다. */
+    #settings-modal { min-width: min(250px, calc(100vw - 52px)); }
+    .promotion-choice {
+      width: min(60px, calc((100vw - 122px) / 4));
+      height: min(60px, calc((100vw - 122px) / 4));
+    }
+  }
 </style>
 </head>
 <body>
@@ -1594,4 +1658,3 @@ updateStatus();
 
 </body>
 </html>
-
