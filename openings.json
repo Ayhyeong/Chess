@@ -176,6 +176,10 @@
                                               { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nf3", "Qc7", "Bd2"], "evaluation": 0.00, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
                                               { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nf3", "Qc7", "a4"], "evaluation": 0.00, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
                                               { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nf3", "Qc7", "Be2"], "evaluation": 0.00, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
+                                          { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nb3"], "evaluation": 0.00, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
+                                            { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nb3", "Nc6"], "evaluation": 0.00, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
+                                            { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nb3", "Nbd7"], "evaluation": 0.00, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
+                                            { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "f4", "e5", "Nb3", "Be7"], "evaluation": 0.14, "name": "Open Sicilian: Najdorf Variation: Amsterdam Variation" },
   
                                 { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "Nc6"], "evaluation": 0.31, "name": "Open Sicilian: Classical Variation" },
                                 { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "g6"], "evaluation": 0.33, "name": "Open Sicilian: Dragon Variation" },
