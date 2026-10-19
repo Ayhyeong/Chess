@@ -96,6 +96,7 @@
                           { "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Nbd7"], "evaluation": 0, "name": "QGD: Modern: Knight Defense" },
                               { "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Nbd7", "e3"], "evaluation": 0, "name": "QGD: Modern: Knight Defense" },
                                   { "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Nbd7", "e3", "Bb4"], "evaluation": 0, "name": "QGD: Modern: Knight: Manhattan Variation" },
+                                  { "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Nbd7", "e3", "c6", "Nf3", "Qa5"], "evaluation": 0, "name": "QGD: Modern: Knight: Cambridge Springs Defense" },
                   { "moves": ["d4", "d5", "c4", "e6", "Nc3", "c6"], "evaluation": 0, "name": "Queen's Gambit Declined: Semi-Slav Defense" },
                       { "moves": ["d4", "d5", "c4", "e6", "Nc3", "c6", "Nf3", "Nf6", "e3", "Nbd7", "Bd3", "Bd6"], "evaluation": 0, "name": "QGD: Semi-Slav Defense: Chigorin Variation" },
   
