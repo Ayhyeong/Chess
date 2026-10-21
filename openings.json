@@ -36,6 +36,11 @@
       { "moves": ["d4", "e6"], "evaluation": 0, "name": "Horwitz Defense" },
           { "moves": ["d4", "e6", "c4"], "evaluation": 0, "name": "Horwitz Defense" },
               { "moves": ["d4", "e6", "c4", "b6"], "evaluation": 0, "name": "English Defense" },
+                  { "moves": ["d4", "e6", "c4", "b6", "e4"], "evaluation": 0.28, "name": "English Defense" },
+                  { "moves": ["d4", "e6", "c4", "b6", "Nc3"], "evaluation": 0.25, "name": "English Defense" },
+                  { "moves": ["d4", "e6", "c4", "b6", "g3"], "evaluation": 0.22, "name": "English Defense" },
+                  { "moves": ["d4", "e6", "c4", "b6", "Qc2"], "evaluation": 0.15, "name": "English Defense" },
+                  { "moves": ["d4", "e6", "c4", "b6", "a3"], "evaluation": 0.13, "name": "English Defense" },
 
           { "moves": ["d4", "e6", "e4"], "evaluation": 0.18, "name": "French Defense: Normal Variation" },
             { "moves": ["d4", "e6", "e4", "d5"], "evaluation": 0.18, "name": "French Defense: Normal Variation" },
