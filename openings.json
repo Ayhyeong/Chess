@@ -196,6 +196,18 @@
                                 { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "Qc7"], "evaluation": 0.83, "name": "Open Sicilian" },
                                 { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "Qa5"], "evaluation": 1.09, "name": "Open Sicilian" },
 
+                            { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                              { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                  { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                    { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5", "Bg5"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                      { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5", "Bg5", "d4"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                        { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5", "Bg5", "d4", "c3"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                          { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5", "Bg5", "d4", "c3", "Nc6"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                            { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5", "Bg5", "d4", "c3", "Nc6", "cxd4"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                              { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Nb3", "d5", "Bg5", "d4", "c3", "Nc6", "cxd4", "Bb4+"], "evaluation": 0.00, "name": "Open Sicilian: Prins Variation" },
+                                { "moves": ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "f3", "e5", "Bb5+"], "evaluation": -0.04, "name": "Open Sicilian: Prins Variation: Venice Attack" },
+
 
             { "moves": ["e4", "c5", "Nf3", "Nc6"], "evaluation": 0.05, "name": "Sicilian Defense" }, { "moves": ["e4", "c5", "Nf3", "Nc6", "d4"], "evaluation": 0.05, "name": "Sicilian Defense" }, { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4"], "evaluation": 0.05, "name": "Sicilian Defense" }, { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4"], "evaluation": 0.05, "name": "Sicilian Defense" }, { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6"], "evaluation": 0.05, "name": "Sicilian Defense" },
             { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3"], "evaluation": 0.05, "name": "Sicilian Defense" }, { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5"], "evaluation": 0.05, "name": "Sicilian Defense" }, { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5"], "evaluation": 0.05, "name": "Sicilian Defense" },  { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5"], "evaluation": 0.05, "name": "Sicilian Defense" },
@@ -210,6 +222,7 @@
                 { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "Ne7"], "evaluation": 0.23, "name": "Sicilian Defense" },
                 { "moves": ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e5", "Ndb5", "d6", "Bg5", "a6", "Na3", "b5", "Nd5", "Be7", "Bxf6", "Bxf6", "c3", "g6"], "evaluation": 0.24, "name": "Sicilian Defense" },
 
+  
   
       { "moves": ["e4", "c6"], "evaluation": 0, "name": "Caro-Kann Defense" },
           { "moves": ["e4", "c6", "d4", "d5"], "evaluation": 0, "name": "Caro-Kann Defense" },
