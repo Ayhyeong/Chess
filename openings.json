@@ -254,8 +254,11 @@
       { "moves": ["e4", "e5"], "evaluation": 0.28, "name": "King's Therapōn Standoff" },
 
           { "moves": ["e4", "e5", "d4"], "evaluation": -0.1, "name": "Center Game" },
+              { "moves": ["e4", "e5", "d4", "d6"], "evaluation": 0, "name": "Center Game" },
               { "moves": ["e4", "e5", "d4", "d5"], "evaluation": 1.6, "name": "Center Game: Beyer Gambit" },
               { "moves": ["e4", "e5", "d4", "exd4"], "evaluation": -0.1, "name": "Center Game Accepted" },
+              { "moves": ["e4", "e5", "d4", "Nc6"], "evaluation": 0, "name": "Center Game" },
+              { "moves": ["e4", "e5", "d4", "Qe7"], "evaluation": 0, "name": "Center Game" },
   
           { "moves": ["e4", "e5", "f4"], "evaluation": -0.56, "name": "King's Gambit" },
               { "moves": ["e4", "e5", "f4", "exf4"], "evaluation": -0.56, "name": "King's Gambit Accepted" },
