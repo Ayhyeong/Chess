@@ -332,6 +332,47 @@
   .move-san.current-move {
     background: #f6f669;
   }
+  #next-positions {
+    max-width: 640px;
+    margin: 20px auto 0;
+  }
+  #next-positions h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+  }
+  #next-list {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .next-card {
+    width: 180px;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    overflow: hidden;
+  }
+  .next-card:hover { background: #f0f0f0; border-color: #888; }
+  .mini-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+  .mini-board .sq { display: flex; }
+  .mini-board .sq.light { background: #f0d9b5; }
+  .mini-board .sq.dark  { background: #b58863; }
+  .mini-board img { width: 100%; height: 100%; }
+  .next-caption { padding: 6px 4px; line-height: 1.4; }
+  .next-caption .next-moves { font-weight: bold; }
+  .next-caption .next-name { color: #555; font-size: 12px; }
+  .next-caption .next-eval { color: #555; }
   #arrow-overlay {
     position: absolute;
     top: 0;
@@ -480,6 +521,11 @@
   <div id="moves"></div>
   <button onclick="restartGame()">Restart</button>
   <button onclick="undoMove()">Undo</button>
+
+  <div id="next-positions">
+    <h3 id="next-title"></h3>
+    <div id="next-list"></div>
+  </div>
 
 <script>
 'use strict';
@@ -1230,9 +1276,28 @@ function visualizeCheck(sourceGame) {
   }
 }
 
+// 각 항목에 parentLen(= 등록된 가장 긴 앞부분의 길이, 없으면 0)을 붙여 openings 트리를 만든다.
+// 값은 불러올 때 moves만으로 계산하므로 openings.json에 따로 적을 필요가 없다.
+// 수가 없는 항목은 버리고, 같은 수열이 두 번 들어 있으면 처음 것만 쓴다.
+function indexOpenings(data) {
+  const byKey = new Map();
+  for (const opening of data) {
+    if (!opening || !Array.isArray(opening.moves) || !opening.moves.length) continue;
+    const key = opening.moves.join(' ');
+    if (!byKey.has(key)) byKey.set(key, opening);
+  }
+  for (const opening of byKey.values()) {
+    opening.parentLen = 0;
+    for (let len = opening.moves.length - 1; len >= 1; len--) {
+      if (byKey.has(opening.moves.slice(0, len).join(' '))) { opening.parentLen = len; break; }
+    }
+  }
+  return [...byKey.values()];
+}
+
 fetch('openings.json')
   .then(response => response.json())
-  .then(data => { openings = data; })
+  .then(data => { openings = indexOpenings(data); updateStatus(); })
   .catch(err => { console.error('Failed to load openings.json', err); });
 
 function updateStatus() {
@@ -1264,6 +1329,131 @@ function updateStatus() {
 
   if (isCheckAlarmEnabled) visualizeCheck(displayGame);
   else clearVisuals();
+
+  renderNextPositions(displayHistory);
+}
+
+/* ---- 다음 포지션 추천 ----
+   openings를 "등록된 가장 긴 앞부분이 부모"인 트리로 보고, 현재 기보 바로 아래 자식들만 후보로 삼는다.
+   (부모가 현재 기보 이하 길이라는 뜻이다. 중간 단계가 등록되지 않은 항목도 자식이 되고,
+    이미 후보의 자손인 더 깊은 라인은 후보가 아니다.)
+   그중 둘 차례인 쪽에게 유리한 evaluation(백 기준) 상위 3개를 보여준다.
+   카드를 누르면 그 오프닝의 마지막 국면으로 이동한다. */
+const NEXT_POSITION_COUNT = 3;
+
+function findNextPositions(history, color) {
+  const sign = color === 'w' ? -1 : 1; // 백은 evaluation이 큰 것, 흑은 작은 것이 앞으로
+  return openings
+    .filter(o => typeof o.evaluation === 'number'
+      && o.moves.length > history.length
+      && o.parentLen <= history.length
+      && history.every((move, i) => move === o.moves[i]))
+    .sort((a, b) => sign * (a.evaluation - b.evaluation) || a.moves.length - b.moves.length)
+    .slice(0, NEXT_POSITION_COUNT);
+}
+
+// 오프닝 수 목록을 "2. Nf3 Nc6"처럼 번호를 붙여 적는다. (흑 수부터 시작하면 "2... Nc6")
+function formatMoves(moves, startPly) {
+  let text = '';
+  moves.forEach((san, i) => {
+    const ply = startPly + i;
+    const num = Math.floor(ply / 2) + 1;
+    if (ply % 2 === 0) text += (text ? ' ' : '') + num + '. ' + san;
+    else text += (i === 0 ? num + '... ' : ' ') + san;
+  });
+  return text;
+}
+
+function renderMiniBoard(fen) {
+  const wrap = document.createElement('div');
+  wrap.className = 'mini-board';
+  const rows = fen.split(' ')[0].split('/');
+  const cells = []; // cells[r][f], r=0이 8랭크
+  for (const row of rows) {
+    const line = [];
+    for (const ch of row) {
+      if (/\d/.test(ch)) for (let k = 0; k < Number(ch); k++) line.push(null);
+      else line.push((ch === ch.toUpperCase() ? 'w' : 'b') + ch.toUpperCase());
+    }
+    cells.push(line);
+  }
+  for (let r = 0; r < 8; r++) {
+    for (let f = 0; f < 8; f++) {
+      const rr = isBoardFlipped ? 7 - r : r;
+      const ff = isBoardFlipped ? 7 - f : f;
+      const sq = document.createElement('div');
+      sq.className = 'sq ' + ((rr + ff) % 2 === 0 ? 'light' : 'dark');
+      const code = cells[rr][ff];
+      if (code) {
+        const img = document.createElement('img');
+        img.src = 'img/' + code + '.svg';
+        img.alt = code;
+        sq.appendChild(img);
+      }
+      wrap.appendChild(sq);
+    }
+  }
+  return wrap;
+}
+
+function renderNextPositions(history) {
+  const title = document.getElementById('next-title');
+  const list = document.getElementById('next-list');
+  list.innerHTML = '';
+
+  const color = historyStates[history.length].split(' ')[1];
+  const next = findNextPositions(history, color);
+  title.textContent = next.length
+    ? (color === 'w' ? 'White' : 'Black') + '에게 유리한 다음 포지션'
+    : '';
+
+  for (const opening of next) {
+    const probe = new Chess(historyStates[history.length]);
+    const cont = opening.moves.slice(history.length);
+    if (!cont.every(san => probe.move(san))) continue;
+
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'next-card';
+    card.appendChild(renderMiniBoard(probe.fen()));
+
+    const caption = document.createElement('div');
+    caption.className = 'next-caption';
+    const movesEl = document.createElement('div');
+    movesEl.className = 'next-moves';
+    movesEl.textContent = formatMoves(cont, history.length);
+    const nameEl = document.createElement('div');
+    nameEl.className = 'next-name';
+    nameEl.textContent = opening.name || '';
+    const evalEl = document.createElement('div');
+    evalEl.className = 'next-eval';
+    evalEl.textContent = (opening.evaluation > 0 ? '+' : '') + opening.evaluation.toFixed(2);
+    caption.append(movesEl, nameEl, evalEl);
+    card.appendChild(caption);
+
+    card.onclick = () => goToOpening(opening.moves);
+    list.appendChild(card);
+  }
+}
+
+// 처음부터 주어진 수를 모두 두어 현재 포지션을 그 국면으로 바꾼다.
+function goToOpening(moves) {
+  const g = new Chess();
+  const states = [g.fen()];
+  for (const san of moves) {
+    if (!g.move(san)) return;
+    states.push(g.fen());
+  }
+  game.reset();
+  moves.forEach(san => game.move(san));
+  historyStates = states;
+  currentPly = states.length - 1;
+  selectedSquare = null;
+  possibleMoves = [];
+  syncPieces(game.fen());
+  removeHighlights();
+  renderMoveHistory();
+  updateStatus();
 }
 
 /* ---- evaluation → 승/무/패 확률 ----
