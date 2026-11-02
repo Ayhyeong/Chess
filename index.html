@@ -1403,9 +1403,7 @@ function renderNextPositions(history) {
 
   const color = historyStates[history.length].split(' ')[1];
   const next = findNextPositions(history, color);
-  title.textContent = next.length
-    ? (color === 'w' ? 'White' : 'Black') + '에게 유리한 다음 포지션'
-    : '';
+  title.textContent = next.length ? 'Recommended Next Moves' : '';
 
   for (const opening of next) {
     const probe = new Chess(historyStates[history.length]);
