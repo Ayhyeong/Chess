@@ -1403,7 +1403,7 @@ function renderNextPositions(history) {
 
   const color = historyStates[history.length].split(' ')[1];
   const next = findNextPositions(history, color);
-  title.textContent = next.length ? 'Recommended Next Moves' : '';
+  title.textContent = next.length ? 'Next Move Recommendation' : '';
 
   for (const opening of next) {
     const probe = new Chess(historyStates[history.length]);
