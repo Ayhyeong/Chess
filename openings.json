@@ -1,7 +1,8 @@
 [
   { "moves": ["a3"], "evaluation": -0.5, "name": "Anderssen Opening" },
   
-  { "moves": ["a4"], "evaluation": -0.5, "name": "Ware Opening" },
+  { "moves": ["a4"], "evaluation": -0.09, "name": "Ware Opening" },
+      { "moves": ["a4", "Nf6"], "evaluation": -0.09, "name": "Ware Opening" },
 
   { "moves": ["b4"], "evaluation": -0.1, "name": "Polish Opening" },
   
