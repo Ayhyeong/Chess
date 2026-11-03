@@ -1335,9 +1335,8 @@ function updateStatus() {
 
 /* ---- 다음 포지션 추천 ----
    openings를 "등록된 가장 긴 앞부분이 부모"인 트리로 보고, 현재 기보 바로 아래 자식들만 후보로 삼는다.
-   (부모가 현재 기보 이하 길이라는 뜻이다. 중간 단계가 등록되지 않은 항목도 자식이 되고,
-    이미 후보의 자손인 더 깊은 라인은 후보가 아니다.)
-   그중 둘 차례인 쪽에게 유리한 evaluation(백 기준) 상위 3개를 보여준다.
+   중간 단계가 등록되지 않은 항목도 자식이 되고, 이미 후보의 자손인 더 깊은 라인은 후보가 아니다.
+   그중 둘 차례인 쪽에게 유리한 상위 3개를 보여준다.
    카드를 누르면 그 오프닝의 마지막 국면으로 이동한다. */
 const NEXT_POSITION_COUNT = 3;
 
@@ -1352,14 +1351,14 @@ function findNextPositions(history, color) {
     .slice(0, NEXT_POSITION_COUNT);
 }
 
-// 오프닝 수 목록을 "2. Nf3 Nc6"처럼 번호를 붙여 적는다. (흑 수부터 시작하면 "2... Nc6")
+// Algebraic Notation
 function formatMoves(moves, startPly) {
   let text = '';
   moves.forEach((san, i) => {
     const ply = startPly + i;
     const num = Math.floor(ply / 2) + 1;
-    if (ply % 2 === 0) text += (text ? ' ' : '') + num + '. ' + san;
-    else text += (i === 0 ? num + '... ' : ' ') + san;
+    if (ply % 2 === 0) text += (text ? ' ' : '') + num + '.' + san;
+    else text += (i === 0 ? num + '...' : ' ') + san;
   });
   return text;
 }
