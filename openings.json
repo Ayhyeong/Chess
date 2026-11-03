@@ -798,7 +798,7 @@
   
   { "moves": ["e4", "e5", "Ke2"], "evaluation": 0, "name": "Original Bongcloud" },
       { "moves": ["e4", "e5", "Ke2", "Ke7"], "evaluation": 0, "name": "Double Bongcloud" },
-          { "moves": ["e4", "e5", "Ke2", "Ke7", "Qe1", "Qe8", "Kd1", "Kd8"], "evaluation": 0, "name": "Romantic Bongcloud" },
+          { "moves": ["e4", "e5", "Ke2", "Ke7", "Qe1", "Qe8", "Kd1", "Kd8"], "evaluation": 0.06, "name": "Romantic Bongcloud" },
   { "moves": ["e4", "e6", "Ke2"], "evaluation": 0, "name": "Bongcloud" },
       { "moves": ["e4", "e6", "Ke2", "Ke7"], "evaluation": 0, "name": "Double Bongcloud" },
           { "moves": ["e4", "e6", "Ke2", "Ke7", "Qe1", "Qe8", "Kd1", "Kd8"], "evaluation": 0, "name": "Romantic Bongcloud" },
