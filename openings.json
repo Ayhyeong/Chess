@@ -678,7 +678,7 @@
   
   { "moves": ["h4"], "evaluation": -0.5, "name": "Despréz-Kádas Opening" },
   
-  { "moves": ["Nf3"], "evaluation": 0.1, "name": "Zukertort Opening" },
+  { "moves": ["Nf3"], "evaluation": 0.2, "name": "Zukertort Opening" },
   
       { "moves": ["Nf3", "d5", "c4"], "evaluation": 0, "name": "Réti Opening" },
           { "moves": ["Nf3", "d5", "c4", "c6"], "evaluation": 0, "name": "Réti Opening" },
