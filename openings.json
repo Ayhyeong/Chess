@@ -5,6 +5,16 @@
       { "moves": ["a4", "Nf6"], "evaluation": -0.09, "name": "Ware Opening" },
 
   { "moves": ["b4"], "evaluation": -0.1, "name": "Polish Opening" },
+      { "moves": ["b4", "e5"], "evaluation": -0.1, "name": "Polish Opening" },
+          { "moves": ["b4", "e5", "Bb2"], "evaluation": -0.1, "name": "Polish Opening" },
+              { "moves": ["b4", "e5", "Bb2", "Bxb4", "Bxe5", "Nf6", "Nf3", "O-O", "e3", "d5", "Be2", "c5", "O-O", "Nc6", "Bb2", "Re8", "d3"], "evaluation": -0.1, "name": "Polish Opening" },
+          { "moves": ["b4", "e5", "e4"], "evaluation": -0.2, "name": "Polish Opening" },
+              { "moves": ["b4", "e5", "e4", "Nc6", "b5", "Nd4", "c3", "Ne6", "Bc4"], "evaluation": -0.17, "name": "Polish Opening" },
+                  { "moves": ["b4", "e5", "e4", "Nc6", "b5", "Nd4", "c3", "Ne6", "Bc4", "Nf6"], "evaluation": -0.17, "name": "Polish Opening" },
+                      { "moves": ["b4", "e5", "e4", "Nc6", "b5", "Nd4", "c3", "Ne6", "Bc4", "Nf6", "c3", "c6"], "evaluation": -0.17, "name": "Polish Opening" },
+                          { "moves": ["b4", "e5", "e4", "Nc6", "b5", "Nd4", "c3", "Ne6", "Bc4", "Nf6", "c3", "c6", "Bxe6", "dxe6", "bxc6", "bxc6"], "evaluation": -0.17, "name": "Polish Opening" },
+                          { "moves": ["b4", "e5", "e4", "Nc6", "b5", "Nd4", "c3", "Ne6", "Bc4", "Nf6", "c3", "c6", "bxc6", "bxc6", "Bxe6", "dxe6"], "evaluation": -0.17, "name": "Polish Opening" },
+                  { "moves": ["b4", "e5", "e4", "Nc6", "b5", "Nd4", "c3", "Ne6", "Bc4", "Nf4"], "evaluation": -0.01, "name": "Polish Opening" },
   
   { "moves": ["c4"], "evaluation": 0.1, "name": "English Opening" },
       { "moves": ["c4", "c6"], "evaluation": 0, "name": "English Opening: Caro-Kann Defensive System" },
